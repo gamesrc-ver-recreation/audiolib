@@ -1,7 +1,8 @@
 *** WARNING: DO NOT TRY TOO HARD TO BUILD ANY OF THE ORIGINAL LIBRARIES! ***
 
 Please remember that any little difference, not matter how small it is,
-can lead to a vastly different LIB layout. This includes differences in:  
+can lead to a vastly different LIB layout. This includes differences in:
+
 - The development tools (or parts of such); For instance, a compiler, a
 librarian, an assembler, or even a support library or header. A version number
 is not a promise for having the exact tool used to reproduce some library.
@@ -19,7 +20,8 @@ reproduced is given.
 With the right tools, this patched codebase can be used to reproduce
 an Apogee Sound System (ASS) library (AUDIOLIB) that at least *behaves closely*
 (but is *not* identical) to the one embedded in the EXEs from the following
-original releases:  
+original releases:
+
 - Rise of the Triad, Shareware + Registered + Super CD + Site License
 releases, Apogee v1.3. Evidence shows that it's *probably* ASS v1.04.
 
@@ -48,7 +50,8 @@ on some *guessed* date (e.g., an original modification date of the LIB),
 but this does not have to be the case.
 
 These are two good reasons for using ASSREV as described above, referring
-to similar work done for Wolfenstein 3D EXEs (built with Borland C++):  
+to similar work done for Wolfenstein 3D EXEs (built with Borland C++):
+
 - WL1AP12 and WL6AP11 share the same code revision. However, WL1AP11
 is of an earlier revision. Thus, the usage of WOLFREV can be
 less confusing.
@@ -83,11 +86,13 @@ now used instead of BLASTER.C for v1.04 (although BLASTER.H is still used).
 Building the LIB
 ================
 
-Required tools:  
+Required tools:
+
 - Watcom C 10.0b (and no other version), for Apogee Sound System v1.04.
 - Turbo Assembler v3.1 (from Borland C++ 3.1).
 
-Notes before trying to build anything:  
+Notes before trying to build anything:
+
 - This may depend on luck. In fact, as of now, it *is* known that you'll get
 a different LIB.
 - Use BUILD.BAT to build the library (don't call wmake directly),
