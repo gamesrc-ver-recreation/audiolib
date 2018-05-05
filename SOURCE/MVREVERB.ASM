@@ -157,6 +157,13 @@ frev8loop:
         mov     al, byte ptr [esi]             ; get sample
         inc     esi
 
+IF LIBVER_ASSREV LT 19960510
+rpatch8:
+        shr     eax, 5
+        inc     edi
+
+        add     eax, edx
+ELSE
         mov     ecx, eax
         inc     edi
 
@@ -168,6 +175,7 @@ rpatch8:
         add     eax, edx
 
         add     eax, ecx                        ; add sign bit to round to 0
+ENDIF
         dec     ebx                             ; decrement count
 
         mov     [edi], al                       ; write new sample to destination

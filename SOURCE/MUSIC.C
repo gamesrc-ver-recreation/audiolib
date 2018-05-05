@@ -103,7 +103,7 @@ char *MUSIC_ErrorString
          ErrorString = "Apogee Sound System Version " ASS_VERSION_STRING "  "
             // *** VERSIONS RESTORATION ***
             // Note that chances are a non-Unicode char was originally used directly
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960510L)
             "Programmed by Jim Dos\xE9\n"
             "Copyright 1995 Apogee Software, Ltd.\n";
 #else

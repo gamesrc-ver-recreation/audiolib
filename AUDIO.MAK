@@ -12,7 +12,9 @@
 
 #FIXME - Use just LIBVER_ASSREV for now (or get "Argument list too big")
 LIBVER_ARGS       = -DLIBVER_ASSREV=$(libver_assrev)
-#LIBVER_ARGS       = -DLIBVER_ASSREV=$(libver_assrev) -DLIBVER_LIBDEF=$(libver_libdef)
+#LIBVER_ARGS       = -DLIBVER_ASSREV=$(libver_assrev)L -DLIBVER_LIBDEF=$(libver_libdef)
+LIBVER_ARGS_TASM  = /dLIBVER_ASSREV=$(libver_assrev)
+#LIBVER_ARGS_TASM  = /dLIBVER_ASSREV=$(libver_assrev) /dLIBVER_LIBDEF=$(libver_libdef)
 
 version = production
 #version = debugging
@@ -42,11 +44,40 @@ final_lib         = $(output_dir)\$(lib_filename)
 .asm :              $(header_dir)
 .obj :              $(obj_dir)
 
-offlib_files     = gf1_osf.lib
+#offlib_files     = gf1_osf.lib
 lib_files         = gf1_osf.lib &
                     pawe32.lib
 
+# FIXME - A *GREAT* DUPLICATION AROUND HERE
 #object_files      = &
+!ifeq libver_libdef AL_11
+object_files      = $(timbre_file).obj &
+                    al_midi.obj  &
+                    awe32.obj    &
+                    blaster.obj  &
+                    debugio.obj  &
+                    dma.obj      &
+                    dpmi.obj     &
+                    fx_man.obj   &
+                    gus.obj      &
+                    gusmidi.obj  &
+                    guswave.obj  &
+                    irq.obj      &
+                    ll_man.obj   &
+                    midi.obj     &
+                    mpu401.obj   &
+                    multivoc.obj &
+                    mv_mix.obj  &
+                    mv_mix16.obj  &
+                    mvreverb.obj &
+                    music.obj    &
+                    pas16.obj    &
+                    pitch.obj    &
+                    sndscape.obj &
+                    sndsrc.obj   &
+                    task_man.obj &
+                    user.obj
+!else
 object_files      = $(timbre_file).obj &
                     adlibfx.obj  &
                     al_midi.obj  &
@@ -74,26 +105,27 @@ object_files      = $(timbre_file).obj &
                     sndsrc.obj   &
                     task_man.obj &
                     user.obj
+!endif
 
-offobject_files      = adlibfx.obj  &
-                    blastold.obj &
-                    debugio.obj  &
-                    dma.obj      &
-                    dpmi.obj     &
-                    fx_man.obj   &
-                    gus.obj      &
-                    guswave.obj  &
-                    irq.obj      &
-                    ll_man.obj   &
-                    multivoc.obj &
-                    mv_mix5.obj  &
-                    pas16.obj    &
-                    pcfx.obj     &
-                    pitch.obj    &
-                    sndscape.obj &
-                    sndsrc.obj   &
-                    task_man.obj &
-                    user.obj
+#offobject_files      = adlibfx.obj  &
+#                    blastold.obj &
+#                    debugio.obj  &
+#                    dma.obj      &
+#                    dpmi.obj     &
+#                    fx_man.obj   &
+#                    gus.obj      &
+#                    guswave.obj  &
+#                    irq.obj      &
+#                    ll_man.obj   &
+#                    multivoc.obj &
+#                    mv_mix5.obj  &
+#                    pas16.obj    &
+#                    pcfx.obj     &
+#                    pitch.obj    &
+#                    sndscape.obj &
+#                    sndsrc.obj   &
+#                    task_man.obj &
+#                    user.obj
 
 
 msg_debugging       = Creating debugging library...
@@ -117,6 +149,9 @@ wlink_production    =
 gus_production      = /zq /w4 /d2 /i=$(header_dir)
 gusmidi_production  = /zq /w4 /d2 /i=$(header_dir)
 multivoc_production = /zq /w4 /d1 /omaxne /zp4 /5r /zu /i=$(header_dir)
+!ifeq libver_libdef AL_11
+music_production = /zq /w4 /d1 /omaxne /zp4 /5r /zu /i=$(header_dir)
+!endif
 pas16_production    = /zq /w4 /d1 /omaxnet /zp4 /5r /i=$(header_dir)
 task_man_production = /zq /w4 /d1 /omaxnet /zp4 /5r /i=$(header_dir)
 midi_production     = /zq /w4 /d1 /omaxnet /zp4 /5r /zu /i=$(header_dir)
@@ -138,12 +173,13 @@ $(lib_name) : $(object_files) audio.mak
    del temp.lnk
 
 .asm.obj :
-   tasm $(tasm_$(version)) $[* $(obj_dir)\$^&
+   tasm $(tasm_$(version)) $(LIBVER_ARGS_TASM)  $[* $(obj_dir)\$^&
 
 .c.obj :
    wcc386 $(wcc_$(version)) $[* $(LIBVER_ARGS) /fo=$(obj_dir)\$^&
 
 
+# VERSIONS RESTORATION - Build based on version
 adlibfx.obj  : adlibfx.c dpmi.h task_man.h interrupt.h al_midi.h adlibfx.h
 
 al_midi.obj  : al_midi.c dpmi.h interrupt.h sndcards.h blaster.h user.h al_midi.h _al_midi.h ll_man.h
@@ -151,8 +187,9 @@ al_midi.obj  : al_midi.c dpmi.h interrupt.h sndcards.h blaster.h user.h al_midi.
 
 awe32.obj    : awe32.c dpmi.h blaster.h ctaweapi.h awe32.h
 
+# VERSIONS RESTORATION - Build based on version
+blaster.obj  : blaster.c dpmi.h dma.h irq.h blaster.h _blaster.h
 blastold.obj  : blastold.c dpmi.h dma.h irq.h blaster.h _blaster.h
-#blaster.obj  : blaster.c dpmi.h dma.h irq.h blaster.h _blaster.h
 
 debugio.obj  : debugio.c debugio.h
 
@@ -160,8 +197,12 @@ dma.obj      : dma.c dma.h
 
 dpmi.obj     : dpmi.c dpmi.h
 
+# VERSIONS RESTORATION - adlibfx.h and pcfx.h are not relevant for all
+# versions, but let's check for them either way
 fx_man.obj   : fx_man.c ll_man.h sndcards.h multivoc.h blaster.h pas16.h &
-   sndscape.h guswave.h sndsrc.h adlibfx.h pcfx.h user.h fx_man.h
+   sndscape.h guswave.h sndsrc.h &
+   adlibfx.h pcfx.h &
+   user.h fx_man.h
 
 $(timbre_file).obj : $(timbre_file).c
 
@@ -177,7 +218,11 @@ irq.obj      : irq.c irq.h
 
 ll_man.obj   : ll_man.c dpmi.h ll_man.h
 
-midi.obj     : midi.c interrupt.h dpmi.h standard.h task_man.h ll_man.h usrhooks.h _midi.h midi.h
+# VERSIONS RESTORATION - music.h is not relevant for
+# all versions, but let's check for it either way
+midi.obj     : midi.c interrupt.h dpmi.h standard.h task_man.h ll_man.h usrhooks.h &
+   music.h &
+   _midi.h midi.h
    wcc386 $(midi_$(version)) $[* $(LIBVER_ARGS) /fo=$(obj_dir)\$^&
 
 mpu401.obj   : mpu401.c dpmi.h user.h mpu401.h
@@ -186,16 +231,22 @@ multivoc.obj : multivoc.c usrhooks.h interrupt.h dpmi.h ll_man.h sndcards.h &
    blaster.h sndscape.h pas16.h sndsrc.h pitch.h multivoc.h _multivc.h dma.h
    wcc386 $(multivoc_$(version)) $[* $(LIBVER_ARGS) /fo=$(obj_dir)\$^&
 
+# VERSIONS RESTORATION - Build based on version
+mv_mix.obj   : mv_mix.asm
+mv_mix16.obj : mv_mix16.asm
 mv_mix5.obj   : mv_mix5.asm
-#mv_mix.obj   : mv_mix.asm
-#mv_mix16.obj : mv_mix16.asm
+#
 mvreverb.obj : mvreverb.asm
 
 music.obj    : music.c ll_man.h task_man.h sndcards.h midi.h al_midi.h pas16.h blaster.h gusmidi.h mpu401.h awe32.h sndscape.h user.h music.h
+!ifeq libver_libdef AL_11
+   wcc386 $(music_$(version)) $[* $(LIBVER_ARGS) /fo=$(obj_dir)\$^&
+!endif
 
 pas16.obj    : pas16.c dpmi.h dma.h interrupt.h irq.h pas16.h _pas16.h
    wcc386 $(pas16_$(version)) $[* $(LIBVER_ARGS) /fo=$(obj_dir)\$^&
 
+# VERSIONS RESTORATION - Build based on version
 pcfx.obj     : pcfx.c dpmi.h task_man.h interrupt.h pcfx.h
 
 pitch.obj    : pitch.c dpmi.h standard.h pitch.h

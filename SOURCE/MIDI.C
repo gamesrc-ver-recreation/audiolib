@@ -2467,6 +2467,9 @@ void MIDI_LoadTimbres
                   _MIDI_ReadDelta( Track );
                   continue;
 #else
+#if (LIBVER_ASSREV < 19960510L)
+                  Track->pos += length;
+#endif
                   break;
 #endif
                }
