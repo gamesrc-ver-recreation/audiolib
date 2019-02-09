@@ -39,9 +39,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string.h>
 #include <stdlib.h>
 #include "usrhooks.h"
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "interrupt.h"
+#else
 #include "interrup.h"
+#endif
 #include "newgf1.h"
 #include "gusmidi.h"
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "memcheck.h"
+#endif
 
 #define TRUE  ( 1 == 1 )
 #define FALSE ( !TRUE )

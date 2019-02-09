@@ -33,7 +33,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <dos.h>
 #include <string.h>
 #include "sndcards.h"
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "interrupt.h"
+#else
 #include "interrup.h"
+#endif
 #include "dpmi.h"
 #include "standard.h"
 #include "task_man.h"
@@ -578,7 +582,11 @@ static void test
    _MIDI_ServiceRoutine( Task );
    }
 */
+#if (LIBVER_ASSREV >= 19960108L) && (LIBVER_ASSREV < 19960116L) // ** VERSIONS RESTORATION
+void _MIDI_ServiceRoutine
+#else
 static void _MIDI_ServiceRoutine
+#endif
    (
    task *Task
    )

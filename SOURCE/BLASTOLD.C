@@ -209,16 +209,18 @@ char *BLASTER_ErrorString
          ErrorString = "Invalid parameter in BLASTER environment variable.";
          break;
 
+// *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 19960116L)
       case BLASTER_UnsupportedCardType :
          ErrorString = "Unsupported card selected in BLASTER environment variable T parameter.";
          break;
 
-// *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
       case BLASTER_UnsupportedSBCardType :
          ErrorString = "Unsupported Sound Blaster card type selected.";
          break;
 
+#endif
 #endif
       case BLASTER_CardNotReady :
          ErrorString = "Sound Blaster not responding on selected port.";
@@ -1141,7 +1143,7 @@ int BLASTER_BeginBufferedPlayback
    // VERSIONS RESTORATION
    // Do the check, based on version
 //JIM
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    if ( BLASTER_SoundPlaying || BLASTER_SoundRecording )
 #endif
       {
@@ -1326,7 +1328,7 @@ int BLASTER_BeginBufferedRecord
    // VERSIONS RESTORATION
    // Do the check, based on version
 //JIM
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    if ( BLASTER_SoundPlaying || BLASTER_SoundRecording )
 #endif
       {

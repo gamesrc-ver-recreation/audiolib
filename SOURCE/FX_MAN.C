@@ -38,13 +38,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "guswave.h"
 #include "sndsrc.h"
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
 #include "adlibfx.h"
 #include "pcfx.h"
 #endif
 #include "ll_man.h"
 #include "user.h"
 #include "fx_man.h"
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "memcheck.h"
+#endif
 
 #define TRUE  ( 1 == 1 )
 #define FALSE ( !TRUE )
@@ -98,7 +101,7 @@ char *FX_ErrorString
             // *** VERSIONS RESTORATION ***
             // Note that chances are a non-Unicode char was originally used directly
 #if (LIBVER_ASSREV < 19960510L)
-            "Programmed by Jim Dos\xE9\n"
+            "Programmed by Jim Dos\x82\n"
             "Copyright 1995 Apogee Software, Ltd.\n";
 #else
             "Programmed by Jim Dose\n"
@@ -124,7 +127,7 @@ char *FX_ErrorString
                break;
 
             // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
             case Adlib :
                ErrorString = ADLIBFX_ErrorString( ADLIBFX_Error );
                break;
@@ -186,7 +189,7 @@ int FX_SetupCard
    int status;
    int DeviceStatus;
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    BLASTER_CONFIG Blaster;
 #endif
 
@@ -206,7 +209,7 @@ int FX_SetupCard
       case SoundBlaster :
       case Awe32 :
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
          if ( BLASTER_GetEnv( &Blaster ) != BLASTER_Ok )
 #else
          DeviceStatus = BLASTER_Init();
@@ -219,7 +222,7 @@ int FX_SetupCard
             }
 
          // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
          BLASTER_SetCardSettings( Blaster );
 
          DeviceStatus = BLASTER_Init();
@@ -250,7 +253,7 @@ int FX_SetupCard
          break;
 
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
       case Adlib :
       case PC :
          device->MaxVoices     = 1;
@@ -478,6 +481,7 @@ int FX_Init
          break;
 
       // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 19960116L)
 #if (LIBVER_ASSREV < 19950821L)
       case UltraSound :
          if ( GUSWAVE_Init( numvoices ) != GUSWAVE_Ok )
@@ -487,6 +491,7 @@ int FX_Init
             }
          break;
 
+#endif
       case Adlib :
          if ( ADLIBFX_Init() != ADLIBFX_Ok )
             {
@@ -503,7 +508,7 @@ int FX_Init
             }
          break;
 
-#endif
+#endif // LIBVER_ASSREV
       default :
          FX_SetErrorCode( FX_InvalidCard );
          status = FX_Error;
@@ -570,11 +575,13 @@ int FX_Shutdown
          break;
 
       // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 19960116L)
 #if (LIBVER_ASSREV < 19950821L)
       case UltraSound :
          GUSWAVE_Shutdown();
          break;
 
+#endif
       case Adlib :
          ADLIBFX_Shutdown();
          break;
@@ -583,7 +590,7 @@ int FX_Shutdown
          PCFX_Shutdown();
          break;
 
-#endif
+#endif // LIBVER_ASSREV
       default :
          FX_SetErrorCode( FX_InvalidCard );
          status = FX_Error;
@@ -632,11 +639,13 @@ int FX_SetCallBack
          break;
 
       // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 19960116L)
 #if (LIBVER_ASSREV < 19950821L)
       case UltraSound :
          GUSWAVE_SetCallBack( function );
          break;
 
+#endif
       case Adlib :
          ADLIBFX_SetCallBack( function );
          break;
@@ -645,7 +654,7 @@ int FX_SetCallBack
          PCFX_SetCallBack( function );
          break;
 
-#endif
+#endif // LIBVER_ASSREV
       default :
          FX_SetErrorCode( FX_InvalidCard );
          status = FX_Error;
@@ -699,7 +708,7 @@ void FX_SetVolume
 
       case SoundScape :
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
       case SoundSource :
       case TandySoundSource :
 #endif
@@ -707,7 +716,7 @@ void FX_SetVolume
          break;
 
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
       case Adlib :
          ADLIBFX_SetTotalVolume( volume );
          break;
@@ -718,7 +727,7 @@ void FX_SetVolume
          break;
 
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
       case PC :
          PCFX_SetTotalVolume( volume );
          break;
@@ -784,7 +793,7 @@ int FX_GetVolume
          break;
 
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
       case Adlib :
          volume = ADLIBFX_GetTotalVolume();
          break;
@@ -819,7 +828,7 @@ void FX_SetReverseStereo
 
    {
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -827,14 +836,19 @@ void FX_SetReverseStereo
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          MV_SetReverseStereo( setting );
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          GUSWAVE_SetReverseStereo( setting );
          break;
+#endif
       }
 #else
    MV_SetReverseStereo( setting );
@@ -855,7 +869,7 @@ int FX_GetReverseStereo
 
    {
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -863,12 +877,17 @@ int FX_GetReverseStereo
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          return MV_GetReverseStereo();
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          return GUSWAVE_GetReverseStereo();
+#endif
 
       default:
          return( FALSE );
@@ -892,7 +911,7 @@ void FX_SetReverb
 
    {
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -900,6 +919,9 @@ void FX_SetReverb
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          MV_SetReverb( reverb );
@@ -924,7 +946,7 @@ void FX_SetFastReverb
 
    {
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -932,6 +954,9 @@ void FX_SetFastReverb
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          MV_SetFastReverb( reverb );
@@ -991,7 +1016,7 @@ void FX_SetReverbDelay
    {
    MV_SetReverbDelay( delay );
    }
-#endif // LIBVER_ASSREV >= 19950821L
+#endif // LIBVER_ASSREV
 
 
 /*---------------------------------------------------------------------
@@ -1007,7 +1032,7 @@ int FX_VoiceAvailable
 
    {
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    int status = FALSE;
    switch( FX_SoundDevice )
       {
@@ -1016,15 +1041,20 @@ int FX_VoiceAvailable
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          status = MV_VoiceAvailable( priority );
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          status = GUSWAVE_VoiceAvailable( priority );
          break;
 
+#endif
       case Adlib :
          status = ADLIBFX_VoiceAvailable( priority );
          break;
@@ -1065,7 +1095,7 @@ int FX_EndLooping
 
    return( status );
    }
-#endif // LIBVER_ASSREV >= 19960510L
+#endif
 
 /*---------------------------------------------------------------------
    Function: FX_SetPan
@@ -1084,7 +1114,7 @@ int FX_SetPan
 
    {
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    int status = FX_Ok;
 
    switch( FX_SoundDevice )
@@ -1094,6 +1124,9 @@ int FX_SetPan
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          status = MV_SetPan( handle, vol, left, right );
@@ -1113,7 +1146,9 @@ int FX_SetPan
             }
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
+#endif
       case PC :
          break;
 
@@ -1121,7 +1156,7 @@ int FX_SetPan
          FX_SetErrorCode( FX_InvalidCard );
          status = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    int status;
 
    status = MV_SetPan( handle, vol, left, right );
@@ -1130,7 +1165,7 @@ int FX_SetPan
       FX_SetErrorCode( FX_MultiVocError );
       status = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( status );
    }
@@ -1151,7 +1186,7 @@ int FX_SetPitch
    {
 // *** VERSIONS RESTORATION ***
 // FIXME - Verify error codes come from the right enums, in ALL files
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    int status = FX_Ok;
 
    switch( FX_SoundDevice )
@@ -1161,6 +1196,9 @@ int FX_SetPitch
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          status = MV_SetPitch( handle, pitchoffset );
@@ -1171,6 +1209,7 @@ int FX_SetPitch
             }
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          status = GUSWAVE_SetPitch( handle, pitchoffset );
          // VERSIONS RESTORATION - A vanilla bug
@@ -1180,6 +1219,7 @@ int FX_SetPitch
             }
          break;
 
+#endif
       case PC :
          break;
 
@@ -1187,7 +1227,7 @@ int FX_SetPitch
          FX_SetErrorCode( FX_InvalidCard );
          status = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    int status;
 
    status = MV_SetPitch( handle, pitchoffset );
@@ -1196,7 +1236,7 @@ int FX_SetPitch
       FX_SetErrorCode( FX_MultiVocError );
       status = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( status );
    }
@@ -1218,7 +1258,7 @@ int FX_SetFrequency
    int status;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -1226,6 +1266,9 @@ int FX_SetFrequency
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          status = MV_SetFrequency( handle, frequency );
@@ -1240,14 +1283,14 @@ int FX_SetFrequency
          FX_SetErrorCode( FX_InvalidCard );
          status = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    status = MV_SetFrequency( handle, frequency );
    if ( status == MV_Error )
       {
       FX_SetErrorCode( FX_MultiVocError );
       status = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( status );
    }
@@ -1274,7 +1317,7 @@ int FX_PlayVOC
    int handle;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -1282,6 +1325,9 @@ int FX_PlayVOC
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          handle = MV_PlayVOC( ptr, pitchoffset, vol, left, right,
@@ -1293,6 +1339,7 @@ int FX_PlayVOC
             }
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          handle = GUSWAVE_PlayVOC( ptr, pitchoffset, 0, vol,
             priority, callbackval );
@@ -1303,6 +1350,7 @@ int FX_PlayVOC
             }
          break;
 
+#endif
       case Adlib :
          // FIXME (RESTORATION) - Might be a vanilla bug here (swapped args)
          handle = ADLIBFX_Play( ptr, priority, vol, callbackval );
@@ -1326,7 +1374,7 @@ int FX_PlayVOC
          FX_SetErrorCode( FX_InvalidCard );
          handle = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    handle = MV_PlayVOC( ptr, pitchoffset, vol, left, right,
       priority, callbackval );
    if ( handle < MV_Ok )
@@ -1334,7 +1382,7 @@ int FX_PlayVOC
       FX_SetErrorCode( FX_MultiVocError );
       handle = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( handle );
    }
@@ -1363,7 +1411,7 @@ int FX_PlayLoopedVOC
    int handle;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -1371,6 +1419,9 @@ int FX_PlayLoopedVOC
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          handle = MV_PlayLoopedVOC( ptr, loopstart, loopend, pitchoffset,
@@ -1405,7 +1456,7 @@ int FX_PlayLoopedVOC
          FX_SetErrorCode( FX_InvalidCard );
          handle = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    handle = MV_PlayLoopedVOC( ptr, loopstart, loopend, pitchoffset,
       vol, left, right, priority, callbackval );
    if ( handle < MV_Ok )
@@ -1413,7 +1464,7 @@ int FX_PlayLoopedVOC
       FX_SetErrorCode( FX_MultiVocError );
       handle = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( handle );
    }
@@ -1440,7 +1491,7 @@ int FX_PlayWAV
    int handle;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -1448,6 +1499,9 @@ int FX_PlayWAV
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          handle = MV_PlayWAV( ptr, pitchoffset, vol, left, right,
@@ -1459,6 +1513,7 @@ int FX_PlayWAV
             }
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          handle = GUSWAVE_PlayWAV( ptr, pitchoffset, 0, vol,
             priority, callbackval );
@@ -1469,6 +1524,7 @@ int FX_PlayWAV
             }
          break;
 
+#endif
       case Adlib :
          // FIXME (RESTORATION) - Might be a vanilla bug here (swapped args)
          handle = ADLIBFX_Play( ptr, priority, vol, callbackval );
@@ -1492,7 +1548,7 @@ int FX_PlayWAV
          FX_SetErrorCode( FX_InvalidCard );
          handle = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    handle = MV_PlayWAV( ptr, pitchoffset, vol, left, right,
       priority, callbackval );
    if ( handle < MV_Ok )
@@ -1500,7 +1556,7 @@ int FX_PlayWAV
       FX_SetErrorCode( FX_MultiVocError );
       handle = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( handle );
    }
@@ -1529,7 +1585,7 @@ int FX_PlayLoopedWAV
    int handle;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -1537,6 +1593,9 @@ int FX_PlayLoopedWAV
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          handle = MV_PlayLoopedWAV( ptr, loopstart, loopend, pitchoffset,
@@ -1571,7 +1630,7 @@ int FX_PlayLoopedWAV
          FX_SetErrorCode( FX_InvalidCard );
          handle = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    handle = MV_PlayLoopedWAV( ptr, loopstart, loopend,
       pitchoffset, vol, left, right, priority, callbackval );
    if ( handle < MV_Ok )
@@ -1579,7 +1638,7 @@ int FX_PlayLoopedWAV
       FX_SetErrorCode( FX_MultiVocError );
       handle = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( handle );
    }
@@ -1606,7 +1665,7 @@ int FX_PlayVOC3D
    int handle;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -1614,6 +1673,9 @@ int FX_PlayVOC3D
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          handle = MV_PlayVOC3D( ptr, pitchoffset, angle, distance,
@@ -1625,6 +1687,7 @@ int FX_PlayVOC3D
             }
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          handle = GUSWAVE_PlayVOC( ptr, pitchoffset, angle, 255-distance,
             priority, callbackval );
@@ -1635,6 +1698,7 @@ int FX_PlayVOC3D
             }
          break;
 
+#endif
       case Adlib :
          handle = ADLIBFX_Play( ptr, 255-distance, priority, callbackval );
          if ( handle < ADLIBFX_Ok )
@@ -1657,7 +1721,7 @@ int FX_PlayVOC3D
          FX_SetErrorCode( FX_InvalidCard );
          handle = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    handle = MV_PlayVOC3D( ptr, pitchoffset, angle, distance,
       priority, callbackval );
    if ( handle < MV_Ok )
@@ -1665,7 +1729,7 @@ int FX_PlayVOC3D
       FX_SetErrorCode( FX_MultiVocError );
       handle = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( handle );
    }
@@ -1692,7 +1756,7 @@ int FX_PlayWAV3D
    int handle;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -1700,6 +1764,9 @@ int FX_PlayWAV3D
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          handle = MV_PlayWAV3D( ptr, pitchoffset, angle, distance,
@@ -1711,6 +1778,7 @@ int FX_PlayWAV3D
             }
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          handle = GUSWAVE_PlayWAV( ptr, pitchoffset, angle, 255-distance,
             priority, callbackval );
@@ -1721,6 +1789,7 @@ int FX_PlayWAV3D
             }
          break;
 
+#endif
       case Adlib :
          handle = ADLIBFX_Play( ptr, 255-distance, priority, callbackval );
          if ( handle < ADLIBFX_Ok )
@@ -1743,7 +1812,7 @@ int FX_PlayWAV3D
          FX_SetErrorCode( FX_InvalidCard );
          handle = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    handle = MV_PlayWAV3D( ptr, pitchoffset, angle, distance,
       priority, callbackval );
    if ( handle < MV_Ok )
@@ -1751,7 +1820,7 @@ int FX_PlayWAV3D
       FX_SetErrorCode( FX_MultiVocError );
       handle = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( handle );
    }
@@ -1780,7 +1849,7 @@ int FX_PlayRaw
    int handle;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -1788,6 +1857,9 @@ int FX_PlayRaw
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          handle = MV_PlayRaw( ptr, length, rate, pitchoffset,
@@ -1822,7 +1894,7 @@ int FX_PlayRaw
          FX_SetErrorCode( FX_InvalidCard );
          handle = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    handle = MV_PlayRaw( ptr, length, rate, pitchoffset,
       vol, left, right, priority, callbackval );
    if ( handle < MV_Ok )
@@ -1830,7 +1902,7 @@ int FX_PlayRaw
       FX_SetErrorCode( FX_MultiVocError );
       handle = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( handle );
    }
@@ -1861,7 +1933,7 @@ int FX_PlayLoopedRaw
    int handle;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -1869,6 +1941,9 @@ int FX_PlayLoopedRaw
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          handle = MV_PlayLoopedRaw( ptr, length, loopstart, loopend,
@@ -1903,7 +1978,7 @@ int FX_PlayLoopedRaw
          FX_SetErrorCode( FX_InvalidCard );
          handle = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    handle = MV_PlayLoopedRaw( ptr, length, loopstart, loopend,
       rate, pitchoffset, vol, left, right, priority, callbackval );
    if ( handle < MV_Ok )
@@ -1911,7 +1986,7 @@ int FX_PlayLoopedRaw
       FX_SetErrorCode( FX_MultiVocError );
       handle = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( handle );
    }
@@ -1933,7 +2008,7 @@ int FX_Pan3D
 
    {
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    int status = FX_Ok;
 
    switch( FX_SoundDevice )
@@ -1943,6 +2018,9 @@ int FX_Pan3D
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          status = MV_Pan3D( handle, angle, distance );
@@ -1953,10 +2031,12 @@ int FX_Pan3D
             }
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          status = GUSWAVE_SetPan3D( handle, angle, distance );
          break;
 
+#endif
       case Adlib :
          status = ADLIBFX_SetVolume( handle, 255-distance );
          if ( status != ADLIBFX_Ok )
@@ -1973,7 +2053,7 @@ int FX_Pan3D
          FX_SetErrorCode( FX_InvalidCard );
          status = FX_Error;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    int status;
 
    status = MV_Pan3D( handle, angle, distance );
@@ -1982,7 +2062,7 @@ int FX_Pan3D
       FX_SetErrorCode( FX_MultiVocError );
       status = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( status );
    }
@@ -2001,21 +2081,26 @@ int FX_SoundActive
 
    {
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
       case Awe32 :
       case ProAudioSpectrum :
       case SoundMan16 :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundScape :
       case SoundSource :
       case TandySoundSource :
          return( MV_VoicePlaying( handle ) );
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          return( GUSWAVE_VoicePlaying( handle ) );
 
+#endif
       case Adlib :
          return( ADLIBFX_SoundPlaying( handle ) );
 
@@ -2023,9 +2108,9 @@ int FX_SoundActive
          return( PCFX_SoundPlaying( handle ) );
       }
    return( FALSE );
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    return( MV_VoicePlaying( handle ) );
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
    }
 
 
@@ -2042,7 +2127,7 @@ int FX_SoundsPlaying
 
    {
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -2050,17 +2135,22 @@ int FX_SoundsPlaying
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          return( MV_VoicesPlaying() );
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
 
       case UltraSound :
          return( GUSWAVE_VoicesPlaying() );
+#endif
       }
    return( FALSE );
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    return( MV_VoicesPlaying() );
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
    }
 
 
@@ -2079,7 +2169,7 @@ int FX_StopSound
    int status;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -2087,6 +2177,9 @@ int FX_StopSound
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          status = MV_Kill( handle );
@@ -2097,6 +2190,7 @@ int FX_StopSound
             }
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          status = GUSWAVE_Kill( handle );
          if ( status != GUSWAVE_Ok )
@@ -2106,6 +2200,7 @@ int FX_StopSound
             }
          break;
 
+#endif
       case Adlib :
          status = ADLIBFX_Stop( handle );
          if ( status != ADLIBFX_Ok )
@@ -2127,14 +2222,14 @@ int FX_StopSound
       default:
          FX_SetErrorCode( FX_InvalidCard );
        }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    status = MV_Kill( handle );
    if ( status != MV_Ok )
       {
       FX_SetErrorCode( FX_MultiVocError );
       return( FX_Warning );
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( FX_Ok );
    }
@@ -2155,7 +2250,7 @@ int FX_StopAllSounds
    int status;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -2163,6 +2258,9 @@ int FX_StopAllSounds
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          status = MV_KillAllVoices();
@@ -2173,6 +2271,7 @@ int FX_StopAllSounds
             }
          break;
 
+#if (LIBVER_ASSREV < 19950821L) // VERSIONS RESTORATION
       case UltraSound :
          status = GUSWAVE_KillAllVoices();
          if ( status != GUSWAVE_Ok )
@@ -2182,6 +2281,7 @@ int FX_StopAllSounds
             }
          break;
 
+#endif
       case Adlib :
       case PC :
          break;
@@ -2189,14 +2289,14 @@ int FX_StopAllSounds
       default:
          FX_SetErrorCode( FX_InvalidCard );
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    status = MV_KillAllVoices();
    if ( status != MV_Ok )
       {
       FX_SetErrorCode( FX_MultiVocError );
       return( FX_Warning );
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( FX_Ok );
    }
@@ -2224,7 +2324,7 @@ int FX_StartDemandFeedPlayback
    int handle;
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    switch( FX_SoundDevice )
       {
       case SoundBlaster :
@@ -2232,6 +2332,9 @@ int FX_StartDemandFeedPlayback
       case ProAudioSpectrum :
       case SoundMan16 :
       case SoundScape :
+#if (LIBVER_ASSREV >= 19950821L) // VERSIONS RESTORATION
+      case UltraSound :
+#endif
       case SoundSource :
       case TandySoundSource :
          handle = MV_StartDemandFeedPlayback( function, rate,
@@ -2243,6 +2346,7 @@ int FX_StartDemandFeedPlayback
             }
          break;
 
+#if (LIBVER_ASSREV < 19950821L)
       case UltraSound :
          handle = GUSWAVE_StartDemandFeedPlayback( function, rate,
             pitchoffset, 0, vol, priority, callbackval );
@@ -2253,11 +2357,12 @@ int FX_StartDemandFeedPlayback
             }
          break;
 
+#endif
       default:
          FX_SetErrorCode( FX_InvalidCard );
          handle = FX_Warning;
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV
    handle = MV_StartDemandFeedPlayback( function, rate,
       pitchoffset, vol, left, right, priority, callbackval );
    if ( handle < MV_Ok )
@@ -2265,7 +2370,7 @@ int FX_StartDemandFeedPlayback
       FX_SetErrorCode( FX_MultiVocError );
       handle = FX_Warning;
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV
 
    return( handle );
    }

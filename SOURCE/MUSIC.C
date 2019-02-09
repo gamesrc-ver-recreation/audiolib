@@ -104,7 +104,7 @@ char *MUSIC_ErrorString
             // *** VERSIONS RESTORATION ***
             // Note that chances are a non-Unicode char was originally used directly
 #if (LIBVER_ASSREV < 19960510L)
-            "Programmed by Jim Dos\xE9\n"
+            "Programmed by Jim Dos\x82\n"
             "Copyright 1995 Apogee Software, Ltd.\n";
 #else
             "Programmed by Jim Dose\n"
@@ -828,7 +828,7 @@ int MUSIC_InitMidi
    status = MUSIC_Ok;
 
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
    if ( card == WaveBlaster )
       {
       if ( Address <= BLASTER_Ok )
@@ -846,7 +846,7 @@ int MUSIC_InitMidi
       {
           BLASTER_SetupWaveBlaster(BLASTER_Ok);
       }
-#else // LIBVER_ASSREV >= 19950821L
+#else // LIBVER_ASSREV >= 19960116L
    if ( ( card == WaveBlaster ) || ( card == SoundCanvas ) ||
       ( card == GenMidi ) )
       {
@@ -854,7 +854,7 @@ int MUSIC_InitMidi
       // (ie. SoundCanvas DB, TurtleBeach Rio)
       BLASTER_SetupWaveBlaster();
       }
-#endif // LIBVER_ASSREV < 19950821L
+#endif // LIBVER_ASSREV < 19960116L
 
    if ( card == SoundScape )
       {

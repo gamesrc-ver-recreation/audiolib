@@ -36,7 +36,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <conio.h>
 #include "dpmi.h"
 #include "usrhooks.h"
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "interrupt.h"
+#else
 #include "interrup.h"
+#endif
 #include "dma.h"
 // *** VERSIONS RESTORATION ***
 // FIXME GUESSING
@@ -488,7 +492,7 @@ void MV_ServiceVoc
       //Commented out so that the buffer is always cleared.
       //This is so the guys at Echo Speech can mix into the
       //buffer even when no sounds are playing.
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960116L)
       if ( !MV_BufferEmpty[ MV_MixPage ] )
 #endif
          {

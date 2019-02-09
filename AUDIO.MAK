@@ -77,6 +77,35 @@ object_files      = $(timbre_file).obj &
                     sndsrc.obj   &
                     task_man.obj &
                     user.obj
+!else ifeq libver_libdef AL_109
+object_files      = $(timbre_file).obj &
+                    adlibfx.obj  &
+                    al_midi.obj  &
+                    awe32.obj    &
+                    blastold.obj  &
+                    debugio.obj  &
+                    dma.obj      &
+                    dpmi.obj     &
+                    fx_man.obj   &
+                    gus.obj      &
+                    gusmidi.obj  &
+                    guswave.obj  &
+                    irq.obj      &
+                    ll_man.obj   &
+                    midi.obj     &
+                    mpu401.obj   &
+                    multivoc.obj &
+                    mv_mix.obj  &
+                    mv_mix16.obj  &
+                    mvreverb.obj &
+                    music.obj    &
+                    pas16.obj    &
+                    pcfx.obj     &
+                    pitch.obj    &
+                    sndscape.obj &
+                    sndsrc.obj   &
+                    task_man.obj &
+                    user.obj
 !else
 object_files      = $(timbre_file).obj &
                     adlibfx.obj  &
@@ -149,7 +178,7 @@ wlink_production    =
 gus_production      = /zq /w4 /d2 /i=$(header_dir)
 gusmidi_production  = /zq /w4 /d2 /i=$(header_dir)
 multivoc_production = /zq /w4 /d1 /omaxne /zp4 /5r /zu /i=$(header_dir)
-!ifeq libver_libdef AL_11
+!ifneq libver_libdef AL950724
 music_production = /zq /w4 /d1 /omaxne /zp4 /5r /zu /i=$(header_dir)
 !endif
 pas16_production    = /zq /w4 /d1 /omaxnet /zp4 /5r /i=$(header_dir)
@@ -239,7 +268,7 @@ mv_mix5.obj   : mv_mix5.asm
 mvreverb.obj : mvreverb.asm
 
 music.obj    : music.c ll_man.h task_man.h sndcards.h midi.h al_midi.h pas16.h blaster.h gusmidi.h mpu401.h awe32.h sndscape.h user.h music.h
-!ifeq libver_libdef AL_11
+!ifneq libver_libdef AL950724
    wcc386 $(music_$(version)) $[* $(LIBVER_ARGS) /fo=$(obj_dir)\$^&
 !endif
 

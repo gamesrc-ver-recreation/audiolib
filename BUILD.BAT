@@ -1,12 +1,16 @@
 @echo off
 if "%1"=="AL950724" goto al950724
+if "%1"=="AL_109" goto al_109
 if "%1"=="AL_11" goto al_11
 echo You need to pass a supported UPPERCASE directory name as an argument.
-echo Currently accepted: AL950724, AL_11
+echo Currently accepted: AL950724, AL_109, AL_11
 goto end
 
 :al950724
 set ASSREV=19950724
+goto task
+:al_109
+set ASSREV=19960108
 goto task
 :al_11
 set ASSREV=19960116
