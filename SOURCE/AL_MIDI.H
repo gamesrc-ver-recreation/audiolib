@@ -40,7 +40,11 @@ enum AL_Errors
 #define ADLIB_PORT 0x388
 
 void AL_SendOutputToPort( int port, int reg, int data );
+#if (LIBVER_ASSREV < 19950821L) // *** VERSIONS RESTORATION ***
+void AL_SendOutput( int reg, int data );
+#else
 void AL_SendOutput( int  voice, int reg, int data );
+#endif
 void AL_StereoOn( void );
 void AL_StereoOff( void );
 int  AL_ReserveVoice( int voice );

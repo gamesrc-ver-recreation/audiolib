@@ -79,7 +79,7 @@ static task *_MIDI_PlayRoutine = NULL;
 static int  _MIDI_Division;
 // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-static unsigned _MIDI_Tick;
+static unsigned _MIDI_PositionInTicks;
 #else
 static int  _MIDI_Tick    = 0;
 static int  _MIDI_Beat    = 1;
@@ -212,11 +212,12 @@ static void _MIDI_ResetTracks
    int    i;
    track *ptr;
 
-   _MIDI_Tick = 0;
    // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
+   _MIDI_PositionInTicks = 0;
    _MIDI_ActiveTracks = _MIDI_NumTracks;
 #else
+   _MIDI_Tick = 0;
    _MIDI_Beat = 1;
    _MIDI_Measure = 1;
    _MIDI_Time = 0;
@@ -617,7 +618,7 @@ static void _MIDI_ServiceRoutine
    tracknum = 0;
    // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-   ++_MIDI_Tick;
+   ++_MIDI_PositionInTicks;
 #endif
    while( tracknum < _MIDI_NumTracks )
       {
@@ -1525,28 +1526,28 @@ int MIDI_PlaySong
 // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
 /*---------------------------------------------------------------------
-   Function: MIDI_GetSongPosition
+   Function: MIDI_GetPosition
 
    Returns the position of the song pointer.
 ---------------------------------------------------------------------*/
 
-int MIDI_GetSongPosition
+int MIDI_GetPosition
    (
    void
    )
 
    {
-   return _MIDI_Tick;
+   return _MIDI_PositionInTicks;
    }
 
 
 /*---------------------------------------------------------------------
-   Function: MIDI_SetSongPosition
+   Function: MIDI_SetPosition
 
    Sets the position of the song pointer.
 ---------------------------------------------------------------------*/
 
-void MIDI_SetSongPosition
+void MIDI_SetPosition
    (
    int pos
    )
@@ -1571,16 +1572,16 @@ void MIDI_SetSongPosition
 
    MIDI_PauseSong();
 
-   if ( pos < _MIDI_Tick )
+   if ( pos < _MIDI_PositionInTicks )
       {
       _MIDI_ResetTracks();
       }
 
-   while ( _MIDI_Tick < pos )
+   while ( _MIDI_PositionInTicks < pos )
       {
       Track = _MIDI_TrackPtr;
       tracknum = 0;
-      ++_MIDI_Tick;
+      ++_MIDI_PositionInTicks;
       while( ( tracknum < _MIDI_NumTracks ) && ( Track != NULL ) )
          {
          // RESTORATION - More-or-less a copy-and-paste
@@ -2594,7 +2595,7 @@ void MIDI_UnlockMemory
    DPMI_Unlock( _MIDI_Funcs );
    // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-   DPMI_Unlock( _MIDI_Tick );
+   DPMI_Unlock( _MIDI_PositionInTicks );
 #else
    DPMI_Unlock( _MIDI_PositionInTicks );
    DPMI_Unlock( _MIDI_Division );
@@ -2646,7 +2647,7 @@ int MIDI_LockMemory
    status |= DPMI_Lock( _MIDI_Funcs );
    // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-   status |= DPMI_Lock( _MIDI_Tick );
+   status |= DPMI_Lock( _MIDI_PositionInTicks );
 #else
    status |= DPMI_Lock( _MIDI_PositionInTicks );
    status |= DPMI_Lock( _MIDI_Division );

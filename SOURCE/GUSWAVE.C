@@ -176,7 +176,7 @@ char *GUSWAVE_ErrorString
 // *** VERSIONS RESTORATION ***
 // This array is 256 bytes long in earlier versions
 #if (LIBVER_ASSREV < 19950821L)
-char GUS_Silence8[ 256 ] =
+char GUS_Silence[ 256 ] =
 #else
 char GUS_Silence8[ 1024 ] = //256 ] =
 #endif
@@ -352,7 +352,7 @@ static int LOADDS GUSWAVE_CallBack
                   *buf = ( unsigned char * )GUS_Silence16;
                   }
 #else
-               *buf = GUS_Silence8;
+               *buf = GUS_Silence;
 #endif
                *size = 256;
                }
@@ -1688,7 +1688,7 @@ int GUSWAVE_StartDemandFeedPlayback
    voice->length      = 256;
    // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-   voice->sound       = GUS_Silence8;
+   voice->sound       = GUS_Silence;
 #else
    voice->sound       = ( bits == 8 ) ? GUS_Silence8 : ( char * )GUS_Silence16;
 #endif

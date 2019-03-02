@@ -164,7 +164,7 @@ static CHANNEL   Channel[ NUM_CHANNELS ];
 
 // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-static int AL_PitchBendRange;
+static int PitchBendRange;
 #endif
 
 static int AL_LeftPort   = 0x388;
@@ -231,17 +231,9 @@ void AL_SendOutputToPort
    Sends data to the Adlib.
 ---------------------------------------------------------------------*/
 
-// *** VERSIONS RESTORATION ***
-// FIXME HUGE HACK
-#if (LIBVER_ASSREV < 19950821L)
-#define AL_SendOutput(voice, reg, data) AL_SendOutputTest(reg, data)
-void AL_SendOutputTest
-#else
 void AL_SendOutput
-#endif
    (
-   // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV >= 19950821L)
+#if (LIBVER_ASSREV >= 19950821L) // *** VERSIONS RESTORATION ***
    int  voice,
 #endif
    int  reg,
@@ -267,6 +259,9 @@ void AL_SendOutput
 #endif
       }
    }
+#if (LIBVER_ASSREV < 19950821L) // *** VERSIONS RESTORATION *** - HACK
+#define AL_SendOutput(voice, reg, data) AL_SendOutput(reg, data)
+#endif
 
 
 /*---------------------------------------------------------------------
@@ -824,7 +819,7 @@ static void AL_ResetVoices
 
    // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-   AL_PitchBendRange = AL_DefaultPitchBendRange;
+   PitchBendRange = AL_DefaultPitchBendRange;
    for( index = 0; index < NUM_VOICES; index++ )
 #else
    numvoices = NUM_VOICES;
@@ -1419,11 +1414,11 @@ void AL_SetPitchBend
 
    // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-   TotalBend  = pitchbend * AL_PitchBendRange;
+   TotalBend  = pitchbend * PitchBendRange;
    TotalBend /= ( PITCHBEND_CENTER / FINETUNE_RANGE );
 
    Channel[ channel ].KeyOffset  = ( int )( TotalBend / FINETUNE_RANGE );
-   Channel[ channel ].KeyOffset -= AL_PitchBendRange;
+   Channel[ channel ].KeyOffset -= PitchBendRange;
 #else
    TotalBend  = pitchbend * Channel[ channel ].PitchBendRange;
    TotalBend /= ( PITCHBEND_CENTER / FINETUNE_RANGE );
@@ -1534,7 +1529,7 @@ void AL_Shutdown
    DPMI_Unlock( Channel );
    // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-   DPMI_Unlock( AL_PitchBendRange );
+   DPMI_Unlock( PitchBendRange );
 #endif
    DPMI_Unlock( AL_LeftPort );
    DPMI_Unlock( AL_RightPort );
@@ -1596,7 +1591,7 @@ int AL_Init
    status |= DPMI_Lock( Channel );
    // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-   status |= DPMI_Lock( AL_PitchBendRange );
+   status |= DPMI_Lock( PitchBendRange );
 #endif
    status |= DPMI_Lock( AL_LeftPort );
    status |= DPMI_Lock( AL_RightPort );

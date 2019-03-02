@@ -664,21 +664,21 @@ void MUSIC_GetSongPosition
 // FIXME - Guessing these were reversed, should unify with commented out
 // code above somehow
 #if (LIBVER_ASSREV < 19950821L)
-int MUSIC_GetSongPosition
+int MUSIC_GetPosition
    (
    void
    )
 
    {
-   return MIDI_GetSongPosition();
+   return MIDI_GetPosition();
    }
-void MUSIC_SetSongPosition
+void MUSIC_SetPosition
    (
    int pos
    )
 
    {
-   MIDI_SetSongPosition( pos );
+   MIDI_SetPosition( pos );
    }
 #endif // LIBVER_ASSREV < 19950821L
 
