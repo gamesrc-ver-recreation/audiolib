@@ -19,11 +19,15 @@ reproduced is given.
 
 With the right tools, this patched codebase can be used to reproduce
 an Apogee Sound System (ASS) library (AUDIOLIB) that at least *behaves closely*
-(but is *not* identical) to the one embedded in the EXEs from the following
+(but is *not* identical) to the ones embedded in the EXEs from the following
 original releases:
 
-- Rise of the Triad, Shareware + Registered + Super CD + Site License
-releases, Apogee v1.3. Evidence shows that it's *probably* ASS v1.04.
+- Rise of the Triad 1.3 (4 Apogee releases and 2 Lasersoft releases).
+Evidence shows that it's ASS 1.04.
+- Shadow Warrior 1.0-1.2. This one is matching ASS 1.09, and should differ
+just by one register access and garbage data inserted by Watcom 10.0b.
+- Duke Nukem 3D: Atomic Edition 1.4-1.5 i.e., ASS 1.1. Except for
+the aforementioned garbage data, this one should perfectly match.
 
 The originally released AUDIO.MAK file was used as a base, albeit with minor
 influences from AUDIO2.MAK (as available with the released ROTT sources).
@@ -32,22 +36,23 @@ You shall *not* call "wmake" on your own anymore. Instead, use BUILD.BAT.
 List of releases by LIB/directory file names
 --------------------------------------------
 
-- AL950724: Apogee Sound System v1.04.
+- AL950724: Apogee Sound System v1.04 (imperfect as stated above).
+- AL_109: Apogee Sound System v1.09 (with one bit of imperfection).
+- AL_11: Apogee Sound System v1.1.
 
 How to identify code changes (and what's this ASSREV thing)?
 ------------------------------------------------------------
 
-IGNORE THIS FOR NOW. What matters, though, is that wmake, via AUDIO.MAK,
-manually sets LIBVER_ASSREV to the desired LIB file revision string,
-which is also used as the output LIB's filename (without the file extension).
-
-Note that only C sources (and not ASM) are covered by the above for now.
-
-LIBVER_ASSREV is defined for the currently only build (of AL950724).
-It is intended to represent a revision of development of
+Different values of LIBVER_ASSREV are defined for differing builds of the
+library. It is intended to represent a revision of development of
 the Apogee Sound System codebase. Usually, this revision value is based
 on some *guessed* date (e.g., an original modification date of the LIB),
 but this does not have to be the case.
+
+Note that only C sources (and not ASM) are covered by the above for now.
+
+Via AUDIO.MAK, Watcom Make (wmake) manually sets LIBVER_ASSREV
+to the desired LIB file revision string.
 
 These are two good reasons for using ASSREV as described above, referring
 to similar work done for Wolfenstein 3D EXEs (built with Borland C++):
@@ -81,22 +86,40 @@ modified so the library, as well as the new objects files, are
 created in a separate directory, depending on the version.
 - Various source code files were modified. As hinted above, BLASTOLD.C is
 now used instead of BLASTER.C for v1.04 (although BLASTER.H is still used).
+- Recreated code of v1.1 (as used in Duke Nukem 3D: Atomic Edition 1.4-1.5)
+was added later, somewhat more similar to 1.12 as released on 2002.
+- Even later, 1.09 (matching Shadow Warrior 1.0-1.2) was added. Since almost
+all changes were already applied during the (partial) recreation of 1.04,
+this mostly covered changes to compared LIBVER_ASSREV values.
+Additional checks related to GUS were added, though. A few bits of debugging
+information were used in order to further improve the accuracy, even if
+not by much. This comes to adding '#include "memcheck.h"' to a bunch
+of C files, and similarly replacing "interrup.h" with "interrupt.h".
 - There may be at least one other difference.
 
-Building the LIB
-================
+Building each LIB
+=================
 
 Required tools:
 
-- Watcom C 10.0b (and no other version), for Apogee Sound System v1.04.
+- Watcom C 10.0b (and no other version).
 - Turbo Assembler v3.1 (from Borland C++ 3.1).
 
 Notes before trying to build anything:
 
 - This may depend on luck. In fact, as of now, it *is* known that you'll get
-a different LIB.
+a different LIB, although it should be equivalent in behaviors in the cases of
+versions 1.09 & 1.1 (and identical for 1.1 up to misc. Watcom-generated data).
+- Even if code is perfectly matching, the OBJ/LIB files will
+still include data like original paths and timestamps of
+source files (including local or system headers).
 - Use BUILD.BAT to build the library (don't call wmake directly),
 or CLEAN.BAT to remove the library and created object files.
+
+For reference, a list of such original paths in use is given here:
+- System headers: c:\ln\watcom\h.
+- Apogee Sound System source dir: C:\PRG\AUDIO\source for version 1.04,
+D:\PRG\AUDIO\source for 1.09 and 1.1.
 
 Building the LIB
 ----------------
@@ -110,7 +133,7 @@ Known issues
 ------------
 
 There are known differences in the output that should be listed,
-compared to AUDIOLIB v1.04 (as a part of ROTT Apogee v1.3):
+compared to AUDIOLIB 1.04 (as a part of ROTT 1.3):
 - Small differences in FX_SetupCard and FX_Init from FX_MAN.C.
 - Larger differences in MULTIVOC.C:MV_ServiceVoc. In fact, this is been the
 *most* problematic part for now. The function body's length is even different
@@ -120,6 +143,11 @@ By enabling the hack, you MODIFY the behaviors of MV_ServiceVoc!
 From AUDIOLIB and ROTT:
 - Misc. global variables found in locations differing from the originals
 in the recreated ROTT EXE layout.
+
+For 1.09 (used in SW 1.0-1.2), there's still a minor difference in
+FX_SetupCard, but it shouldn't have an impact on the behaviors.
+
+With 1.1 (Duke3D 1.4-1.5), the generated code should essentially be identical.
 
 Furthermore, most chances are that paddings between string literals, or
 possibly less commonly between global variables, will be filled with different
