@@ -33,6 +33,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <conio.h>
 #include <stdlib.h>
 #include "dma.h"
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "memcheck.h"
+#endif
 
 #define DMA_MaxChannel 7
 

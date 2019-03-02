@@ -36,6 +36,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifdef LOCKMEMORY
 #include "dpmi.h"
 #endif
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "memcheck.h"
+#endif
 
 #define OFFSET( structure, offset ) \
    ( *( ( char ** )&( structure )[ offset ] ) )

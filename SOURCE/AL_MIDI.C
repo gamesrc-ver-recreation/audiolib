@@ -46,6 +46,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "al_midi.h"
 #include "_al_midi.h"
 #include "ll_man.h"
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "memcheck.h"
+#endif
 
 #define TRUE  ( 1 == 1 )
 #define FALSE ( !TRUE )

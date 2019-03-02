@@ -61,6 +61,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #else
 #define FreeMem( ptr )   free( ( ptr ) )
 #endif
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "memcheck.h"
+#endif
 
 typedef struct
    {

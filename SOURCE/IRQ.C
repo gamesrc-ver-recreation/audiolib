@@ -31,6 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <dos.h>
 #include <stdlib.h>
 #include "irq.h"
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "memcheck.h"
+#endif
 
 #define D32RealSeg(P) ( ( ( ( unsigned long )( P ) ) >> 4 ) & 0xFFFF )
 #define D32RealOff(P) ( ( ( unsigned long )( P ) ) & 0xF )

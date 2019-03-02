@@ -21,6 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdarg.h>
 #include <stdlib.h>
 #include "debugio.h"
+#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#include "memcheck.h"
+#endif
 
 static unsigned short disp_offset = 160 * 24;
 static void myutoa( unsigned num, char *string, int radix );

@@ -17,6 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+#if (LIBVER_ASSREV < 19950821L) // *** VERSIONS RESTORATION ***
+#include "memcheck.h"
+#endif
 typedef struct
    {
    unsigned char SAVEK[ 2 ];
@@ -25,9 +28,7 @@ typedef struct
    unsigned char Env2[ 2 ];
    unsigned char Wave[ 2 ];
    unsigned char Feedback;
-   // *** VERSIONS RESTORATION ***
-   // FIXME - Need to get definition of macro from somewhere later
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19950821L) // *** VERSIONS RESTORATION ***
    unsigned char Transpose;
 #else
    signed   char Transpose;
