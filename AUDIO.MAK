@@ -50,7 +50,34 @@ lib_files         = gf1_osf.lib &
 
 # FIXME - A *GREAT* DUPLICATION AROUND HERE
 #object_files      = &
-!ifeq libver_libdef AL_11
+!ifeq libver_libdef AL_112
+object_files      = $(timbre_file).obj &
+                    al_midi.obj  &
+                    awe32.obj    &
+                    blaster.obj  &
+                    debugio.obj  &
+                    dma.obj      &
+                    dpmi.obj     &
+                    fx_man.obj   &
+                    gus.obj      &
+                    gusmidi.obj  &
+                    guswave.obj  &
+                    irq.obj      &
+                    ll_man.obj   &
+                    midi.obj     &
+                    mpu401.obj   &
+                    multivoc.obj &
+                    mv_mix.obj  &
+                    mv_mix16.obj  &
+                    mvreverb.obj &
+                    music.obj    &
+                    pas16.obj    &
+                    pitch.obj    &
+                    sndscape.obj &
+                    sndsrc.obj   &
+                    task_man.obj &
+                    user.obj
+!else ifeq libver_libdef AL_11
 object_files      = $(timbre_file).obj &
                     al_midi.obj  &
                     awe32.obj    &
@@ -285,7 +312,7 @@ sndscape.obj : sndscape.c interrupt.h dpmi.h dma.h irq.h sndscape.h _sndscap.h
 sndsrc.obj   : sndsrc.c dpmi.h task_man.h sndcards.h user.h sndsrc.h
 
 task_man.obj : task_man.c dpmi.h interrupt.h linklist.h usrhooks.h task_man.h
-   wcc386 $(task_man_$(version)) $[* /fo=$(obj_dir)\$^&
+   wcc386 $(task_man_$(version)) $[* $(LIBVER_ARGS) /fo=$(obj_dir)\$^&
 
 user.obj     : user.c user.h
 

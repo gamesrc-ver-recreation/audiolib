@@ -56,14 +56,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MV_MaxTotalVolume  255
 // *** VERSIONS RESTORATION ***
 // Uncomment for earlier versions
-#if (LIBVER_ASSREV < 19960510L)
+#if (LIBVER_ASSREV < 20021225L)
 #define MV_MaxVolume       63
 #endif
 #define MV_NumVoices       8
 
 // *** VERSIONS RESTORATION ***
 // Uncomment line for earlier revisions
-#if (LIBVER_ASSREV >= 19960510L)
+#if (LIBVER_ASSREV >= 20021225L)
 #define MIX_VOLUME( volume ) \
    ( ( max( 0, min( ( volume ), 255 ) ) * ( MV_MaxVolume + 1 ) ) >> 8 )
 #else

@@ -28,6 +28,8 @@ Evidence shows that it's ASS 1.04.
 just by one register access and garbage data inserted by Watcom 10.0b.
 - Duke Nukem 3D: Atomic Edition 1.4-1.5 i.e., ASS 1.1. Except for
 the aforementioned garbage data, this one should perfectly match.
+- Blood 0.91-1.21 i.e., ASS 1.12. Except for
+the aforementioned garbage data, this one should perfectly match.
 
 The originally released AUDIO.MAK file was used as a base, albeit with minor
 influences from AUDIO2.MAK (as available with the released ROTT sources).
@@ -39,6 +41,7 @@ List of releases by LIB/directory file names
 - AL950724: Apogee Sound System v1.04 (imperfect as stated above).
 - AL_109: Apogee Sound System v1.09 (with one bit of imperfection).
 - AL_11: Apogee Sound System v1.1.
+- AL_112: Apogee Sound System v1.12.
 
 How to identify code changes (and what's this ASSREV thing)?
 ------------------------------------------------------------
@@ -147,7 +150,7 @@ in the recreated ROTT EXE layout.
 For 1.09 (used in SW 1.0-1.2), there's still a minor difference in
 FX_SetupCard, but it shouldn't have an impact on the behaviors.
 
-With 1.1 (Duke3D 1.4-1.5), the generated code should essentially be identical.
+With 1.1 (Duke3D 1.4-1.5) and 1.12 (Blood 0.91-1.21), the generated code should essentially be identical.
 
 Furthermore, most chances are that paddings between string literals, or
 possibly less commonly between global variables, will be filled with different

@@ -100,7 +100,7 @@ char *FX_ErrorString
          ErrorString = "Apogee Sound System Version " ASS_VERSION_STRING "  "
             // *** VERSIONS RESTORATION ***
             // Note that chances are a non-Unicode char was originally used directly
-#if (LIBVER_ASSREV < 19960510L)
+#if (LIBVER_ASSREV < 20021225L)
             "Programmed by Jim Dos\x82\n"
             "Copyright 1995 Apogee Software, Ltd.\n";
 #else
@@ -233,9 +233,7 @@ int FX_SetupCard
             }
 #endif
          device->MaxVoices = 32;
-#if (LIBVER_ASSREV < 19960510L)
          BLASTER_GetCardInfo( &device->MaxSampleBits, &device->MaxChannels );
-#endif
          break;
 
       case ProAudioSpectrum :
@@ -1070,7 +1068,7 @@ int FX_VoiceAvailable
    }
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV >= 19960510L)
+#if (LIBVER_ASSREV >= 19960514L)
 /*---------------------------------------------------------------------
    Function: FX_EndLooping
 

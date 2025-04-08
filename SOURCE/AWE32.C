@@ -297,7 +297,7 @@ static void AWE32_LockEnd
 
 // *** VERSIONS RESTORATION ***
 // Uncomment code for certain versions
-#if (LIBVER_ASSREV < 19960510L)
+#if (LIBVER_ASSREV < 19960514L)
 static int InitMPU
    (
    void

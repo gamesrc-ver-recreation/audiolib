@@ -323,7 +323,7 @@ static void __interrupt __far TS_ServiceSchedule
          // *** VERSIONS RESTORATION ***
          // Choose line based on version
 //JIM
-#if (LIBVER_ASSREV < 19950821L)
+#if (LIBVER_ASSREV < 19960514L)
          if ( ptr->count >= ptr->rate )
 #else
          while( ptr->count >= ptr->rate )

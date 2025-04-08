@@ -157,7 +157,7 @@ frev8loop:
         mov     al, byte ptr [esi]             ; get sample
         inc     esi
 
-IF LIBVER_ASSREV LT 19960510
+IF LIBVER_ASSREV LT 19960514
 rpatch8:
         shr     eax, 5
         inc     edi
