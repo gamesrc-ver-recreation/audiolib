@@ -48,123 +48,58 @@ final_lib         = $(output_dir)\$(lib_filename)
 lib_files         = gf1_osf.lib &
                     pawe32.lib
 
-# FIXME - A *GREAT* DUPLICATION AROUND HERE
-#object_files      = &
-!ifeq libver_libdef AL_112
-object_files      = $(timbre_file).obj &
-                    al_midi.obj  &
-                    awe32.obj    &
-                    blaster.obj  &
-                    debugio.obj  &
-                    dma.obj      &
-                    dpmi.obj     &
-                    fx_man.obj   &
-                    gus.obj      &
-                    gusmidi.obj  &
-                    guswave.obj  &
-                    irq.obj      &
-                    ll_man.obj   &
-                    midi.obj     &
-                    mpu401.obj   &
-                    multivoc.obj &
-                    mv_mix.obj  &
-                    mv_mix16.obj  &
-                    mvreverb.obj &
-                    music.obj    &
-                    pas16.obj    &
-                    pitch.obj    &
-                    sndscape.obj &
-                    sndsrc.obj   &
-                    task_man.obj &
-                    user.obj
-!else ifeq libver_libdef AL_11
-object_files      = $(timbre_file).obj &
-                    al_midi.obj  &
-                    awe32.obj    &
-                    blaster.obj  &
-                    debugio.obj  &
-                    dma.obj      &
-                    dpmi.obj     &
-                    fx_man.obj   &
-                    gus.obj      &
-                    gusmidi.obj  &
-                    guswave.obj  &
-                    irq.obj      &
-                    ll_man.obj   &
-                    midi.obj     &
-                    mpu401.obj   &
-                    multivoc.obj &
-                    mv_mix.obj  &
-                    mv_mix16.obj  &
-                    mvreverb.obj &
-                    music.obj    &
-                    pas16.obj    &
-                    pitch.obj    &
-                    sndscape.obj &
-                    sndsrc.obj   &
-                    task_man.obj &
-                    user.obj
-!else ifeq libver_libdef AL_109
-object_files      = $(timbre_file).obj &
-                    adlibfx.obj  &
-                    al_midi.obj  &
-                    awe32.obj    &
-                    blastold.obj  &
-                    debugio.obj  &
-                    dma.obj      &
-                    dpmi.obj     &
-                    fx_man.obj   &
-                    gus.obj      &
-                    gusmidi.obj  &
-                    guswave.obj  &
-                    irq.obj      &
-                    ll_man.obj   &
-                    midi.obj     &
-                    mpu401.obj   &
-                    multivoc.obj &
-                    mv_mix.obj  &
-                    mv_mix16.obj  &
-                    mvreverb.obj &
-                    music.obj    &
-                    pas16.obj    &
-                    pcfx.obj     &
-                    pitch.obj    &
-                    sndscape.obj &
-                    sndsrc.obj   &
-                    task_man.obj &
-                    user.obj
+# VERSIONS RESTORATION: Select a few files according to version
+!ifeq libver_libdef AL950724
+mv_mix_files      = mv_mix5.obj
 !else
-object_files      = $(timbre_file).obj &
-                    adlibfx.obj  &
-                    al_midi.obj  &
-                    awe32.obj    &
-                    blastold.obj &
-                    debugio.obj  &
-                    dma.obj      &
-                    dpmi.obj     &
-                    fx_man.obj   &
-                    gus.obj      &
-                    gusmidi.obj  &
-                    guswave.obj  &
-                    irq.obj      &
-                    ll_man.obj   &
-                    midi.obj     &
-                    mpu401.obj   &
-                    multivoc.obj &
-                    mv_mix5.obj  &
-                    mvreverb.obj &
-                    music.obj    &
-                    pas16.obj    &
-                    pcfx.obj     &
-                    pitch.obj    &
-                    sndscape.obj &
-                    sndsrc.obj   &
-                    task_man.obj &
-                    user.obj
+mv_mix_files      = mv_mix.obj mv_mix16.obj
 !endif
 
-#offobject_files      = adlibfx.obj  &
-#                    blastold.obj &
+!ifeq libver_libdef AL950724
+blaster_file      = blastold
+adlibfx_files     = adlibfx.obj
+pcfx_files        = pcfx.obj
+!else ifeq libver_libdef AL_109
+blaster_file      = blastold
+adlibfx_files     = adlibfx.obj
+pcfx_files        = pcfx.obj
+!else
+blaster_file      = blaster
+adlibfx_files     =
+pcfx_files        =
+!endif
+
+#object_files      = &
+object_files      = $(timbre_file).obj &
+                    $(adlibfx_files) &
+                    al_midi.obj  &
+                    awe32.obj    &
+                    $(blaster_file).obj &
+                    debugio.obj  &
+                    dma.obj      &
+                    dpmi.obj     &
+                    fx_man.obj   &
+                    gus.obj      &
+                    gusmidi.obj  &
+                    guswave.obj  &
+                    irq.obj      &
+                    ll_man.obj   &
+                    midi.obj     &
+                    mpu401.obj   &
+                    multivoc.obj &
+                    $(mv_mix_files) &
+                    mvreverb.obj &
+                    music.obj    &
+                    pas16.obj    &
+                    $(pcfx_files) &
+                    pitch.obj    &
+                    sndscape.obj &
+                    sndsrc.obj   &
+                    task_man.obj &
+                    user.obj
+
+#offobject_files      = $(adlibfx_files) &
+#                    $(blaster_file).obj &
 #                    debugio.obj  &
 #                    dma.obj      &
 #                    dpmi.obj     &
@@ -174,9 +109,9 @@ object_files      = $(timbre_file).obj &
 #                    irq.obj      &
 #                    ll_man.obj   &
 #                    multivoc.obj &
-#                    mv_mix5.obj  &
+#                    $(mv_mix_files) &
 #                    pas16.obj    &
-#                    pcfx.obj     &
+#                    $(pcfx_files) &
 #                    pitch.obj    &
 #                    sndscape.obj &
 #                    sndsrc.obj   &
