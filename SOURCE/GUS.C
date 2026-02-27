@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string.h>
 #include <stdlib.h>
 #include "usrhooks.h"
-#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 20011231L) // *** VERSIONS RESTORATION ***
 #include "interrupt.h"
 #else
 #include "interrup.h"
@@ -45,7 +45,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "gusmidi.h"
 #include "guswave.h"
 #include "_guswave.h"
-#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 20011231L) // *** VERSIONS RESTORATION ***
 #include "memcheck.h"
 #endif
 

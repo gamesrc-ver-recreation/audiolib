@@ -43,7 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "sndscape.h"
 #include "ll_man.h"
 #include "user.h"
-#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 20011231L) // *** VERSIONS RESTORATION ***
 #include "memcheck.h"
 #endif
 
@@ -105,10 +105,13 @@ char *MUSIC_ErrorString
       case MUSIC_ASSVersion :
          ErrorString = "Apogee Sound System Version " ASS_VERSION_STRING "  "
             // *** VERSIONS RESTORATION ***
-            // Note that chances are a non-Unicode char was originally used directly
-#if (LIBVER_ASSREV < 20021225L)
+            // Note that a non-Unicode char was probably used as-is, originally.
+#if (LIBVER_ASSREV < 20011231L)
             "Programmed by Jim Dos\x82\n"
             "Copyright 1995 Apogee Software, Ltd.\n";
+#elif (LIBVER_ASSREV < 20021225L)
+            "Programmed by Jim Dos\x82\n"
+            "(c) Copyright 1996 James R. Dos\x82.  All Rights Reserved.\n";
 #else
             "Programmed by Jim Dose\n"
             "(c) Copyright 1996 James R. Dose.  All Rights Reserved.\n";

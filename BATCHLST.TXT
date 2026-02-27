@@ -2,6 +2,9 @@
 [2] Apogee Sound System 1.09 (Watcom 10.0b)
 [3] Apogee Sound System 1.1 (Watcom 10.0b)
 [4] Apogee Sound System 1.12 (Watcom 10.0b)
+[5] Apogee Sound System, release LIB from sources of 2002 (Watcom 10.0b)
+[6] Apogee Sound System, debug LIB from sources of 2002 (Watcom 10.0b)
+[7] Apogee Sound System, C code as released in 2002 (Watcom 10.0b)
 
 [0] Cancel and quit
 

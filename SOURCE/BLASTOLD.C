@@ -40,7 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "irq.h"
 #include "blaster.h"
 #include "_blaster.h"
-#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 20011231L) // *** VERSIONS RESTORATION ***
 #include "memcheck.h"
 #endif
 

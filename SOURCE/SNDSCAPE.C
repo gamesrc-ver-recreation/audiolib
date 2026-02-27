@@ -35,7 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
-#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 20011231L) // *** VERSIONS RESTORATION ***
 #include "interrupt.h"
 #else
 #include "interrup.h"
@@ -45,7 +45,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "irq.h"
 #include "sndscape.h"
 #include "_sndscap.h"
-#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 20011231L) // *** VERSIONS RESTORATION ***
 #include "memcheck.h"
 #endif
 

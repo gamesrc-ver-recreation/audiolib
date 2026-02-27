@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <conio.h>
 #include "dpmi.h"
 #include "usrhooks.h"
-#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 20011231L) // *** VERSIONS RESTORATION ***
 #include "interrupt.h"
 #else
 #include "interrup.h"
@@ -44,7 +44,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "dma.h"
 // *** VERSIONS RESTORATION ***
 // FIXME GUESSING
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
 #include "ll_man.h"
 // FIXME - HUGE HACK
 #define LL_Empty(a,b,c) ((a)->start == NULL)
@@ -62,7 +62,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "multivoc.h"
 #include "_multivc.h"
 #include "debugio.h"
-#if (LIBVER_ASSREV < 20021225L) // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 20011231L) // *** VERSIONS RESTORATION ***
 #include "memcheck.h"
 #endif
 
@@ -129,7 +129,7 @@ static VoiceNode *MV_Voices = NULL;
 // 1. Different definitions for list and pool, from MV1.C
 // 2. HACK - Misc. convenience macros
 // 3. FIXME - Maybe LIBVER_ASS_MV_VOICESTART/LISTEND won't be required (replacing for loops with while loops)
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
 #define LIBVER_ASS_MV_VOICELISTEND NULL
 #define LIBVER_ASS_MV_VOICESTART start
 static volatile VList VoiceList = { NULL, NULL };
@@ -149,7 +149,7 @@ static void ( *MV_RecordFunc )( char *ptr, int length ) = NULL;
 static void ( *MV_MixFunction )( VoiceNode *voice, int buffer );
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV >= 20021225L)
+#if (LIBVER_ASSREV >= 20011231L)
 static int MV_MaxVolume = 63;
 #endif
 
@@ -405,7 +405,7 @@ void MV_PlayVoice
 
    flags = DisableInterrupts();
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
    LL_AddToTail( VoiceNode, &VoiceList, voice );
 #else
    LL_SortedInsertion( &VoiceList, voice, prev, next, VoiceNode, priority );
@@ -434,7 +434,7 @@ void MV_StopVoice
    // *** VERSIONS RESTORATION ***
 
    // move the voice from the play list to the free list
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
    LL_Remove( VoiceNode, &VoiceList, voice );
    LL_AddToTail( VoiceNode, &VoicePool, voice );
 #else
@@ -657,7 +657,7 @@ void MV_ServiceVoc
    // *** VERSIONS RESTORATION ***
 
    // Play any waiting voices
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
    voice = VoiceList.start;
    while( voice != NULL )
 #else
@@ -687,7 +687,7 @@ void MV_ServiceVoc
             }
          }
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
       voice = next;
 #endif
       }
@@ -1199,7 +1199,7 @@ VoiceNode *MV_GetVoice
    flags = DisableInterrupts();
 
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
    voice = VoiceList.start;
    while( voice != NULL )
 #else
@@ -1211,7 +1211,7 @@ VoiceNode *MV_GetVoice
          break;
          }
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
       voice = voice->next;
 #endif
       }
@@ -1359,7 +1359,7 @@ int MV_VoicesPlaying
    flags = DisableInterrupts();
 
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
    voice = VoiceList.start;
    while( voice != NULL )
 #else
@@ -1368,7 +1368,7 @@ int MV_VoicesPlaying
       {
       NumVoices++;
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
       voice = voice->next;
 #endif
       }
@@ -1409,7 +1409,7 @@ VoiceNode *MV_AllocVoice
       // *** VERSIONS RESTORATION ***
 
       // check if we have a higher priority than a voice that is playing.
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
       voice = node = VoiceList.start;
       while( node != NULL )
 #else
@@ -1422,7 +1422,7 @@ VoiceNode *MV_AllocVoice
             voice = node;
             }
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
          node = node->next;
 #endif
          }
@@ -1443,7 +1443,7 @@ VoiceNode *MV_AllocVoice
 
    voice = VoicePool.LIBVER_ASS_MV_VOICESTART;
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
    LL_Remove( VoiceNode, &VoicePool, voice );
 #else
    LL_Remove( voice, next, prev );
@@ -1494,7 +1494,7 @@ int MV_VoiceAvailable
 
    // check if we have a higher priority than a voice that is playing.
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
    voice = node = VoiceList.start;
    while( node != NULL )
 #else
@@ -1507,7 +1507,7 @@ int MV_VoiceAvailable
          voice = node;
          }
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
       node = node->next;
 #endif
       }
@@ -2354,7 +2354,7 @@ void MV_StopPlayback
    flags = DisableInterrupts();
 
    // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
    voice = VoiceList.start;
    while( voice != NULL )
 #else
@@ -2370,7 +2370,7 @@ void MV_StopPlayback
          MV_CallBackFunc( voice->callbackval );
          }
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
       voice = next;
 #endif
       }
@@ -3064,7 +3064,7 @@ static void MV_LockEnd
 
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV >= 20021225L)
+#if (LIBVER_ASSREV >= 20011231L)
 /*---------------------------------------------------------------------
    Function: MV_CreateVolumeTable
 
@@ -3106,7 +3106,7 @@ void MV_CreateVolumeTable
          }
       }
    }
-#endif // LIBVER_ASSREV >= 20021225L
+#endif // LIBVER_ASSREV >= 20011231L
 
 
 /*---------------------------------------------------------------------
@@ -3143,7 +3143,7 @@ void MV_CalcVolume
    level = 0;
 
    bits = 32 - MV_Bits;
-#elif (LIBVER_ASSREV < 20021225L)
+#elif (LIBVER_ASSREV < 20011231L)
    int val;
    int level;
    int i;
@@ -3180,7 +3180,7 @@ void MV_CalcVolume
    // appropriate volume calculated.
    for( volume = 0; volume <= MV_MaxVolume; volume++ )
       {
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
       // More-or-less MV_CreateVolumeTable, inlined
       level = ( volume * MaxVolume ) / MV_MaxTotalVolume;
       if ( MV_Bits == 16 )
@@ -3205,7 +3205,7 @@ void MV_CalcVolume
          }
 #else
       MV_CreateVolumeTable( volume, volume, MaxVolume );
-#endif // LIBVER_ASSREV < 20021225L
+#endif // LIBVER_ASSREV < 20011231L
       }
 #endif // LIBVER_ASSREV < 19950821L
    }
@@ -3521,7 +3521,7 @@ int MV_Init
    for( index = 0; index < Voices; index++ )
       {
       // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 20021225L)
+#if (LIBVER_ASSREV < 20011231L)
       LL_AddToTail( VoiceNode, &VoicePool, &MV_Voices[ index ] );
 #else
       LL_Add( &VoicePool, &MV_Voices[ index ], next, prev );
