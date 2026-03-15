@@ -10,11 +10,11 @@ if ERRORLEVEL 5 goto al_rottb
 if ERRORLEVEL 4 goto al_112
 if ERRORLEVEL 3 goto al_11
 if ERRORLEVEL 2 goto al_109
-if ERRORLEVEL 1 goto al950724
+if ERRORLEVEL 1 goto al_104
 
-:al950724
-set ASSREV=19950724
-set DIR=AL950724
+:al_104
+set ASSREV=19950518
+set DIR=AL_104
 set OBJDIR=OBJ
 goto task
 :al_109

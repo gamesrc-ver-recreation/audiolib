@@ -33,7 +33,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string.h>
 #include <dos.h>
 #include <time.h>
+#if (LIBVER_ASSREV >= 19950821L)
 #include <conio.h>
+#endif
 #include "dpmi.h"
 #include "usrhooks.h"
 #if (LIBVER_ASSREV < 20011231L) // *** VERSIONS RESTORATION ***
@@ -57,13 +59,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "sndscape.h"
 #include "sndsrc.h"
 #include "pas16.h"
+#if (LIBVER_ASSREV >= 19950821L)
 #include "guswave.h"
+#endif
 #include "pitch.h"
 #include "multivoc.h"
 #include "_multivc.h"
 #include "debugio.h"
 #if (LIBVER_ASSREV < 20011231L) // *** VERSIONS RESTORATION ***
 #include "memcheck.h"
+#endif
+
+// *** VERSIONS RESTORATION ***
+// Hack for variables order
+#if (LIBVER_ASSREV < 19950821L)
+extern int _wp1, _wp2, _wp3, _wp4, _wp5, _wp6, _wp7, _wp8, _wp9, _wp10;
+extern int _wp11, _wp12, _wp13, _wp14, _wp15, _wp16, _wp17, _wp18, _wp19, _wp20;
 #endif
 
 #define RoundFixed( fixedval, bits )            \
@@ -160,8 +171,8 @@ short *MV_RightVolume;
 // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV >= 19950821L)
 int    MV_SampleSize = 1;
-#endif
 int    MV_RightChannelOffset;
+#endif
 
 unsigned long MV_MixPosition;
 
@@ -473,14 +484,6 @@ void MV_ServiceVoc
 
    // Toggle which buffer we'll mix next
    MV_MixPage++;
-   // FIXME - VERSIONS RESTORATION TEST - Uncomment to ensure the function
-   // body's size is the same as in ROTT Site Licensed v1.3
-   //
-   // *** THIS MODIFIES THE FUNCTION'S BEHAVIORS ***
-#if 0
-   MV_MixPage++;
-   MV_MixPage++;
-#endif
    if ( MV_MixPage >= MV_NumberOfBuffers )
       {
       MV_MixPage -= MV_NumberOfBuffers;
@@ -514,68 +517,87 @@ void MV_ServiceVoc
    else
       {
       // *** VERSIONS RESTORATION ***
-      // FIXME GUESSING, partially based on code from MV1.C (e.g., MV_Mix8bitMono)
 #if (LIBVER_ASSREV < 19950821L)
-      int   sourceOffset;
-      //int   length;
-      int   i;
       if ( MV_ReverbTable != NULL )
          {
-         if ( ( sourceOffset = MV_MixPage - 3 ) < 0 )
-         {
-            sourceOffset = MV_MixPage - 3 + MV_NumberOfBuffers;
-         }
+         int src_page = MV_MixPage - 3;
+         if ( src_page < 0 )
+            {
+            src_page += MV_NumberOfBuffers;
+            }
 
          if ( MV_Bits == 16 )
             {
-            int length = MV_BufferSize / 2;
-            MONO16 *to = MV_MixBuffer[MV_MixPage];
-            MONO16 *from = MV_MixBuffer[sourceOffset];
-            for( i = 0; i < length; i++, from++, to++ )
+            int length;
+            short* source;
+            short* dest;
+            int i;
+
+            source = MV_MixBuffer[ src_page ];
+            dest = MV_MixBuffer[ MV_MixPage ];
+            length = MV_BufferSize / 2;
+
+            for ( i = 0; i < length; i++ )
                {
-               *to = *( (MONO16 *)(*MV_ReverbTable) + ((*from + 128) >> 8) + 128);
+               dest[i] = ( *MV_ReverbTable )[ RoundFixed( source[i], 8 ) + 128 ];
                }
             }
          else
             {
-            unsigned char *from = MV_MixBuffer[sourceOffset];
-            unsigned char *to = MV_MixBuffer[MV_MixPage];
-            //length = MV_BufferSize;
-            for( i = 0; i < MV_BufferSize; i++, from++, to++ )
+            int length;
+            char* source;
+            char* dest;
+            int i;
+
+            source = MV_MixBuffer[ src_page ];
+            dest = MV_MixBuffer[ MV_MixPage ];
+            length = MV_BufferSize;
+
+            for ( i = 0; i < MV_BufferSize; i++ )
                {
-               *to = *( (unsigned char *)(*MV_ReverbTable) + 2*(*from)) + 128;
+               dest[i] = ( *MV_ReverbTable )[ source[i] ] + 128;
                }
             }
          }
       else
          {
+         int level = MV_ReverbLevel;
 
-         unsigned valToShift = MV_ReverbLevel;
-         if ( ( sourceOffset = MV_MixPage - 3 ) < 0 )
-         {
-            sourceOffset = MV_MixPage - 3 + MV_NumberOfBuffers;
-         }
+         int src_page = MV_MixPage - 3;
+         if ( src_page < 0 )
+            {
+            src_page += MV_NumberOfBuffers;
+            }
 
          if ( MV_Bits == 16 )
             {
-            MONO16 *from, *to;
-            int length = MV_BufferSize / 2;
-            /*MONO16 **/from = MV_MixBuffer[sourceOffset];
-            /*MONO16 **/to = MV_MixBuffer[MV_MixPage];
-            for( i = 0; i < length; i++, from++, to++ )
+            int length;
+            short* source;
+            short* dest;
+            int i;
+
+            source = MV_MixBuffer[ src_page ];
+            dest = MV_MixBuffer[ MV_MixPage ];
+            length = MV_BufferSize / 2;
+
+            for ( i = 0; i < length; i++ )
                {
-               *to = (*from) >> (unsigned char)valToShift;
+                dest[i] = source[i] >> level;
                }
             }
          else
             {
-            unsigned char *from, *to;
-            int length = MV_BufferSize;
-            /*unsigned char **/from = MV_MixBuffer[sourceOffset];
-            /*unsigned char **/to = MV_MixBuffer[MV_MixPage];
-            for( i = 0; i < length; i++, from++, to++ )
+            char* source;
+            char* dest;
+            int i;
+            int length;
+            source = MV_MixBuffer[ src_page ];
+            dest = MV_MixBuffer[ MV_MixPage ];
+            length = MV_BufferSize;
+
+            for ( i = 0; i < length; i++ )
                {
-               *to = ((*from) >> (unsigned char)valToShift) + 64;
+               dest[i] = ( source[i] >> level ) + 64;
                }
             }
          }

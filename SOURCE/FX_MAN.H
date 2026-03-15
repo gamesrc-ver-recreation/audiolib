@@ -35,9 +35,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef struct
    {
+// *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 19950821L)
+   long   MaxVoices;
+   long   MaxSampleBits;
+   long   MaxChannels;
+#else
    int MaxVoices;
    int MaxSampleBits;
    int MaxChannels;
+#endif
    } fx_device;
 
 #define MonoFx   1
@@ -91,12 +98,18 @@ void  FX_SetReverseStereo( int setting );
 int   FX_GetReverseStereo( void );
 void  FX_SetReverb( int reverb );
 void  FX_SetFastReverb( int reverb );
+// *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV >= 19950821L)
 int   FX_GetMaxReverbDelay( void );
 int   FX_GetReverbDelay( void );
 void  FX_SetReverbDelay( int delay );
+#endif
 
 int FX_VoiceAvailable( int priority );
+// *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV >= 19950821L)
 int FX_EndLooping( int handle );
+#endif
 int FX_SetPan( int handle, int vol, int left, int right );
 int FX_SetPitch( int handle, int pitchoffset );
 int FX_SetFrequency( int handle, int frequency );

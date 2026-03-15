@@ -86,8 +86,8 @@ void MIDI_StopSong( void );
 int  MIDI_PlaySong( unsigned char *song, int loopflag );
 // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-void MIDI_SetPosition( int pos );
-int MIDI_GetPosition(void);
+unsigned long MIDI_GetPosition( void );
+void  MIDI_SetPosition( unsigned long PositionInTicks );
 #else
 void MIDI_SetTempo( int tempo );
 int  MIDI_GetTempo( void );

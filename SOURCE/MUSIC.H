@@ -50,6 +50,8 @@ enum MUSIC_ERRORS
    MUSIC_DPMI_Error
    };
 
+// *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV >= 19950821L)
 typedef struct
    {
    unsigned long tickposition;
@@ -58,6 +60,7 @@ typedef struct
    unsigned int  beat;
    unsigned int  tick;
    } songposition;
+#endif
 
 #define MUSIC_LoopSong ( 1 == 1 )
 #define MUSIC_PlayOnce ( !MUSIC_LoopSong )
@@ -65,7 +68,10 @@ typedef struct
 char *MUSIC_ErrorString( int ErrorNumber );
 int   MUSIC_Init( int SoundCard, int Address );
 int   MUSIC_Shutdown( void );
+// *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV >= 19950821L)
 void  MUSIC_SetMaxFMMidiChannel( int channel );
+#endif
 void  MUSIC_SetVolume( int volume );
 void  MUSIC_SetMidiChannelVolume( int channel, int volume );
 void  MUSIC_ResetMidiChannelVolumes( void );
@@ -78,8 +84,8 @@ int   MUSIC_StopSong( void );
 int   MUSIC_PlaySong( unsigned char *song, int loopflag );
 // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19950821L)
-void  MUSIC_SetPosition( int pos );
-int   MUSIC_GetPosition( void );
+unsigned long MUSIC_GetPosition( void );
+void  MUSIC_SetPosition( unsigned long PositionInTicks );
 #else
 void  MUSIC_SetContext( int context );
 int   MUSIC_GetContext( void );

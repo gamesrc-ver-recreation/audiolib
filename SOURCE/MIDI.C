@@ -1531,7 +1531,7 @@ int MIDI_PlaySong
    Returns the position of the song pointer.
 ---------------------------------------------------------------------*/
 
-int MIDI_GetPosition
+unsigned long MIDI_GetPosition
    (
    void
    )
@@ -1549,7 +1549,7 @@ int MIDI_GetPosition
 
 void MIDI_SetPosition
    (
-   int pos
+   unsigned long PositionInTicks
    )
 
    {
@@ -1572,12 +1572,12 @@ void MIDI_SetPosition
 
    MIDI_PauseSong();
 
-   if ( pos < _MIDI_PositionInTicks )
+   if ( PositionInTicks < _MIDI_PositionInTicks )
       {
       _MIDI_ResetTracks();
       }
 
-   while ( _MIDI_PositionInTicks < pos )
+   while ( _MIDI_PositionInTicks < PositionInTicks )
       {
       Track = _MIDI_TrackPtr;
       tracknum = 0;

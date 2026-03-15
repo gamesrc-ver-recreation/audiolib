@@ -39,8 +39,8 @@ with minor influences from `AUDIO2.MAK` (also part of the 2002 release).
 List of releases by output directory names
 ------------------------------------------
 
-- `AL950724`: Apogee Sound System v1.04 - imperfect recreation.
-- `AL_109`: Apogee Sound System v1.09, with one minor bit of imperfection.
+- `AL_104`: Apogee Sound System v1.04.
+- `AL_109`: Apogee Sound System v1.09.
 - `AL_11`: Apogee Sound System v1.1.
 - `AL_112`: Apogee Sound System v1.12.
 - `AL_ROTTB`: AUDIO_WF.LIB files from the aforementioned sources as released
@@ -73,10 +73,8 @@ Required tools:
 Notes before trying to build
 ----------------------------
 
-- This may depend on luck. In fact, as of now, it *is* known that you'll get
-a different LIB file, although it should be equivalent in behaviors in the
-cases of versions 1.09 and later, and identical for 1.1 and later up to
-miscellaneous Watcom-generated data.
+- This may depend on luck, the output LIB should be identical for all covered
+versions up to miscellaneous Watcom-generated data.
 - Even if code is perfectly matching, the OBJ/LIB files
 will still cover data like original paths and timestamps
 of source files, including local and system headers.
@@ -100,26 +98,7 @@ albeit probably not 100% identical byte-by-byte.
 Known issues
 ------------
 
-There are known differences in the output that should be listed,
-compared to AUDIOLIB 1.04 (as a part of ROTT 1.3):
-- Small differences in `FX_SetupCard` and `FX_Init` from `FX_MAN.C`.
-- Larger differences in `MULTIVOC.C:MV_ServiceVoc`. In fact, that has been the
-*most* problematic part for now. The function body's length is even different
-from the original. There's a little bit of a hack that can be used to force
-the original length (look for an instance of "#if 0"), but remember this:
-By enabling the hack, you MODIFY the behaviors of `MV_ServiceVoc`!
-
-From AUDIOLIB and ROTT:
-- Misc. global variables are to be found in locations differing
-from the originals in the recreated ROTT EXE's layout.
-
-For 1.09 (used in SW 1.0-1.2), there's still a minor difference in
-`FX_SetupCard`, but it shouldn't have an impact on the behaviors.
-
-With 1.1 (Duke3D 1.4-1.5) and 1.12 (Blood 0.91-1.21),
-the generated code should essentially be identical.
-
-Furthermore, most chances are that paddings between string literals, or
+Most chances are that paddings between string literals, or
 possibly less commonly between global variables, will be filled with different
 values. Reason is that apparently, for each compilation unit, Watcom C fills
 a buffer with the input source code (or at least a variant of it), and then

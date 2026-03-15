@@ -189,12 +189,12 @@ int FX_SetupCard
    )
 
    {
-   int status;
-   int DeviceStatus;
    // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19960116L)
    BLASTER_CONFIG Blaster;
 #endif
+   int status;
+   int DeviceStatus;
 
    if ( USER_CheckParameter( "ASSVER" ) )
       {
@@ -213,7 +213,8 @@ int FX_SetupCard
       case Awe32 :
       // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19960116L)
-         if ( BLASTER_GetEnv( &Blaster ) != BLASTER_Ok )
+         DeviceStatus = BLASTER_GetEnv( &Blaster );
+         if ( DeviceStatus != BLASTER_Ok )
 #else
          DeviceStatus = BLASTER_Init();
          if ( DeviceStatus != BLASTER_Ok )
@@ -256,9 +257,8 @@ int FX_SetupCard
       // *** VERSIONS RESTORATION ***
 #if (LIBVER_ASSREV < 19960116L)
       case Adlib :
-      case PC :
          device->MaxVoices     = 1;
-         device->MaxSampleBits = status; // FIXME HACK, close but still not there
+         device->MaxSampleBits = 0;
          device->MaxChannels   = 1;
          break;
 #endif
@@ -309,6 +309,15 @@ int FX_SetupCard
          device->MaxSampleBits = 8;
          device->MaxChannels   = 1;
          break;
+
+      // *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV < 19960116L)
+      case PC :
+         device->MaxVoices     = 1;
+         device->MaxSampleBits = 0;
+         device->MaxChannels   = 1;
+         break;
+#endif
 
       default :
          FX_SetErrorCode( FX_InvalidCard );
@@ -421,9 +430,8 @@ int FX_Init
    int devicestatus;
 
    // *** VERSIONS RESTORATION ***
-   // FIXME - Can't be a vanilla bug?
 #if (LIBVER_ASSREV < 19950821L)
-   if ( status = FX_ErrorCode )
+   if ( FX_ErrorCode != FX_Ok )
       {
       return( FX_Error );
       }
@@ -440,13 +448,8 @@ int FX_Init
       return( FX_Error );
       }
 
-   // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV < 19950821L)
-   if ( LL_LockMemory() != LL_Ok )
-#else
    status = LL_LockMemory();
    if ( status != LL_Ok )
-#endif
       {
       FX_SetErrorCode( FX_DPMI_Error );
       return( FX_Error );
@@ -454,10 +457,7 @@ int FX_Init
 
    FX_MixRate = mixrate;
 
-   // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV >= 19950821L)
    status = FX_Ok;
-#endif
    FX_SoundDevice = SoundCard;
    switch( SoundCard )
       {
@@ -485,7 +485,8 @@ int FX_Init
 #if (LIBVER_ASSREV < 19960116L)
 #if (LIBVER_ASSREV < 19950821L)
       case UltraSound :
-         if ( GUSWAVE_Init( numvoices ) != GUSWAVE_Ok )
+         devicestatus = GUSWAVE_Init( numvoices );
+         if ( devicestatus != GUSWAVE_Ok )
             {
             FX_SetErrorCode( FX_SoundCardError );
             status = FX_Error;
@@ -494,7 +495,8 @@ int FX_Init
 
 #endif
       case Adlib :
-         if ( ADLIBFX_Init() != ADLIBFX_Ok )
+         devicestatus = ADLIBFX_Init();
+         if ( devicestatus != ADLIBFX_Ok )
             {
             FX_SetErrorCode( FX_SoundCardError );
             status = FX_Error;
@@ -502,7 +504,8 @@ int FX_Init
          break;
 
       case PC :
-         if ( PCFX_Init() != PCFX_Ok )
+         devicestatus = PCFX_Init();
+         if ( devicestatus != PCFX_Ok )
             {
             FX_SetErrorCode( FX_SoundCardError );
             status = FX_Error;

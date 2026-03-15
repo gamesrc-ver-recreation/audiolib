@@ -68,14 +68,19 @@ int   MV_VoicesPlaying( void );
 int   MV_VoiceAvailable( int priority );
 int   MV_SetPitch( int handle, int pitchoffset );
 int   MV_SetFrequency( int handle, int frequency );
+// *** VERSIONS RESTORATION ***
+#if (LIBVER_ASSREV >= 19960514L)
 int   MV_EndLooping( int handle );
+#endif
 int   MV_SetPan( int handle, int vol, int left, int right );
 int   MV_Pan3D( int handle, int angle, int distance );
 void  MV_SetReverb( int reverb );
 void  MV_SetFastReverb( int reverb );
+#if (LIBVER_ASSREV >= 19950821L)
 int   MV_GetMaxReverbDelay( void );
 int   MV_GetReverbDelay( void );
 void  MV_SetReverbDelay( int delay );
+#endif
 int   MV_SetMixMode( int numchannels, int samplebits );
 int   MV_StartPlayback( void );
 void  MV_StopPlayback( void );

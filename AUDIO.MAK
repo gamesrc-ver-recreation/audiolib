@@ -49,13 +49,13 @@ lib_files         = gf1_osf.lib &
                     pawe32.lib
 
 # VERSIONS RESTORATION: Select a few files according to version
-!ifeq libver_libdef AL950724
+!ifeq libver_libdef AL_104
 mv_mix_files      = mv_mix5.obj
 !else
 mv_mix_files      = mv_mix.obj mv_mix16.obj
 !endif
 
-!ifeq libver_libdef AL950724
+!ifeq libver_libdef AL_104
 blaster_file      = blastold
 adlibfx_files     = adlibfx.obj
 pcfx_files        = pcfx.obj
@@ -140,7 +140,7 @@ wlink_production    =
 gus_production      = /zq /w4 /d2 /i=$(header_dir)
 gusmidi_production  = /zq /w4 /d2 /i=$(header_dir)
 multivoc_production = /zq /w4 /d1 /omaxne /zp4 /5r /zu /i=$(header_dir)
-!ifneq libver_libdef AL950724
+!ifneq libver_libdef AL_104
 music_production = /zq /w4 /d1 /omaxne /zp4 /5r /zu /i=$(header_dir)
 !endif
 pas16_production    = /zq /w4 /d1 /omaxnet /zp4 /5r /i=$(header_dir)
@@ -230,7 +230,7 @@ mv_mix5.obj   : mv_mix5.asm
 mvreverb.obj : mvreverb.asm
 
 music.obj    : music.c ll_man.h task_man.h sndcards.h midi.h al_midi.h pas16.h blaster.h gusmidi.h mpu401.h awe32.h sndscape.h user.h music.h
-!ifneq libver_libdef AL950724
+!ifneq libver_libdef AL_104
    wcc386 $(music_$(version)) $[* $(LIBVER_ARGS) /fo=$(obj_dir)\$^&
 !endif
 

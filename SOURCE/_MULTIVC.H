@@ -223,7 +223,9 @@ static VoiceNode *MV_AllocVoice( int priority );
 
 static short     *MV_GetVolumeTable( int vol );
 
+#if (LIBVER_ASSREV >= 19950821L)
 static void       MV_SetVoiceMixMode( VoiceNode *voice );
+#endif
 
 static void       MV_SetVoicePitch( VoiceNode *voice, unsigned long rate, int pitchoffset );
 static void       MV_CalcVolume( int MaxLevel );
