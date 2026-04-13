@@ -1074,7 +1074,7 @@ int FX_VoiceAvailable
    }
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV >= 19960514L)
+#if (LIBVER_ASSREV >= 19960510L)
 /*---------------------------------------------------------------------
    Function: FX_EndLooping
 

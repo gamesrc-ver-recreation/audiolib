@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ASS_VERSION_STRING "1.04"
 #elif (LIBVER_ASSREV < 19960116L)
 #define ASS_VERSION_STRING "1.09"
-#elif (LIBVER_ASSREV < 19960514L)
+#elif (LIBVER_ASSREV < 19960510L)
 #define ASS_VERSION_STRING "1.1"
 #else
 #define ASS_VERSION_STRING "1.12"

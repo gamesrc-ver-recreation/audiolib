@@ -107,7 +107,7 @@ void  FX_SetReverbDelay( int delay );
 
 int FX_VoiceAvailable( int priority );
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV >= 19950821L)
+#if (LIBVER_ASSREV >= 19960510L)
 int FX_EndLooping( int handle );
 #endif
 int FX_SetPan( int handle, int vol, int left, int right );

@@ -1873,7 +1873,7 @@ void MV_SetVoiceVolume
 
 
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV >= 19960514L)
+#if (LIBVER_ASSREV >= 19960510L)
 /*---------------------------------------------------------------------
    Function: MV_EndLooping
 
@@ -1914,7 +1914,7 @@ int MV_EndLooping
 
    return( MV_Ok );
    }
-#endif // LIBVER_ASSREV >= 19960514L
+#endif // LIBVER_ASSREV >= 19960510L
 
 
 /*---------------------------------------------------------------------
