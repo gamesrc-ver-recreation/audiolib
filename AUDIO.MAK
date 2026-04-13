@@ -50,9 +50,9 @@ lib_files         = gf1_osf.lib &
 
 # VERSIONS RESTORATION: Select a few files according to version
 !ifeq libver_libdef AL_104
-mv_mix_files      = mv_mix5.obj
+mv_files      = mv_mix5.obj
 !else
-mv_mix_files      = mv_mix.obj mv_mix16.obj
+mv_files      = mv_mix.obj mv_mix16.obj mvreverb.obj
 !endif
 
 !ifeq libver_libdef AL_104
@@ -87,8 +87,7 @@ object_files      = $(timbre_file).obj &
                     midi.obj     &
                     mpu401.obj   &
                     multivoc.obj &
-                    $(mv_mix_files) &
-                    mvreverb.obj &
+                    $(mv_files)  &
                     music.obj    &
                     pas16.obj    &
                     $(pcfx_files) &
@@ -109,7 +108,7 @@ object_files      = $(timbre_file).obj &
 #                    irq.obj      &
 #                    ll_man.obj   &
 #                    multivoc.obj &
-#                    $(mv_mix_files) &
+#                    $(mv_files)  &
 #                    pas16.obj    &
 #                    $(pcfx_files) &
 #                    pitch.obj    &
