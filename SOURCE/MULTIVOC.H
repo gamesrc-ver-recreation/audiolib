@@ -69,7 +69,9 @@ int   MV_VoiceAvailable( int priority );
 int   MV_SetPitch( int handle, int pitchoffset );
 int   MV_SetFrequency( int handle, int frequency );
 // *** VERSIONS RESTORATION ***
-#if (LIBVER_ASSREV >= 19960514L)
+// FIXME: Other revision is presumably matching but was impacting vars order
+#if (LIBVER_ASSREV >= 19950821L)
+//#if (LIBVER_ASSREV >= 19960510L)
 int   MV_EndLooping( int handle );
 #endif
 int   MV_SetPan( int handle, int vol, int left, int right );
@@ -110,7 +112,10 @@ int   MV_PlayVOC( char *ptr, int pitchoffset, int vol, int left, int right,
 int   MV_PlayLoopedVOC( char *ptr, long loopstart, long loopend,
          int pitchoffset, int vol, int left, int right, int priority,
          unsigned long callbackval );
+#if 1 // FIXME (RESTORATION): The check was impacting vars order
+//#if (LIBVER_ASSREV >= 20011231L)
 void  MV_CreateVolumeTable( int index, int volume, int MaxVolume );
+#endif
 void  MV_SetVolume( int volume );
 int   MV_GetVolume( void );
 void  MV_SetCallBack( void ( *function )( unsigned long ) );
