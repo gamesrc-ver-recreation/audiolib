@@ -12,15 +12,15 @@ binary as it was released back in the days, for multiple technical reasons.
 List of covered versions
 ------------------------
 
-With the right tools, this patched codebase can be used to reproduce
-an Apogee Sound System (ASS) library (AUDIOLIB) that at least *behaves closely*
-(albeit not necessarily being fully identical) to the ones linked into
-the EXEs from the following original releases:
+With the right tools, this patched codebase can be used to reproduce an
+Apogee Sound System (ASS) library (AUDIOLIB) equivalent in behaviors to any
+of the versions linked into the EXEs from the following original releases:
 
 - Rise of the Triad 1.3 (4 Apogee releases and 2 Lasersoft releases).
-Evidence shows that it's ASS 1.04.
-- Shadow Warrior 1.0-1.2. This one is matching ASS 1.09, and should differ
-just by one register access and garbage data inserted by Watcom 10.0b.
+Here, the library is ASS 1.04. Ignoring garbage data inserted
+by Watcom 10.0b, this one should perfectly match 1.04.
+- Shadow Warrior 1.0-1.2, i.e., ASS 1.09. Outside of garbage data
+as described above, this one should perfectly match.
 - Duke Nukem 3D: Atomic Edition 1.4-1.5, i.e., ASS 1.1. Except for
 the aforementioned garbage data, this one should perfectly match.
 - Blood 0.91-1.21, i.e., ASS 1.12. Except for
@@ -43,7 +43,7 @@ List of releases by output directory names
 - `AL_109`: Apogee Sound System v1.09.
 - `AL_11`: Apogee Sound System v1.1.
 - `AL_112`: Apogee Sound System v1.12.
-- `AL_ROTTB`: AUDIO_WF.LIB files from the aforementioned sources as released
+- `AL_ROTTB`: `AUDIO_WF.LIB` files from the aforementioned sources as released
 in December 2002, under `rott\AUDIO_WF.LIB` and `audiolib\OBJ\AUDIO_WF.LIB`.
 - `AL_ROTTD`: Same as `AL_ROTTB`, but a debugging build instead of a production
 one. Matching 2002's `audiolib\AUDIO_WF.LIB` and `audiolib\OBJDB\AUDIO_WF.LIB`.
@@ -92,8 +92,7 @@ Building the library
 1. Ensure the matching Watcom C and Turbo Assembler versions are ready
 in the environment.
 2. Use DOBUILD.BAT, selecting the output directory name (e.g., `AL_109`).
-3. Hopefully, you should get a LIB file that *behaves close to the original*,
-albeit probably not 100% identical byte-by-byte.
+3. Hopefully, you should get a LIB file matching the original in behaviors.
 
 Known issues
 ------------
